@@ -17,7 +17,7 @@ public abstract class RobotMain358 extends LinearOpMode {
     protected DcMotor rb;
     protected DcMotor slideMotor;
     protected DcMotor crMotor;
-    protected CRServo intakeServo;
+    protected DcMotor intakeMotor;
     protected CRServo blackBox;
 
     protected DistanceSensor dsFront;
@@ -59,7 +59,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         crMotor = hardwareMap.dcMotor.get("crMotor");
         crMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        intakeServo = hardwareMap.crservo.get("intakeServo");
+        intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         blackBox = hardwareMap.crservo.get("blackBox");
     }
 

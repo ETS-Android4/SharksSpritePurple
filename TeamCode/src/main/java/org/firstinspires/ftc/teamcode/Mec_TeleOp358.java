@@ -4,10 +4,20 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp
 public class Mec_TeleOp358 extends RobotMain358{
 
     public void runOpMode() throws InterruptedException {
+
+//        initVuforia();
+//        initTfod();
+//
+//        if (tfod != null) {
+//            tfod.activate();
+//            tfod.setZoom(1, 16.0/9.0);
+//        }
 
         CHASSIS_INITIALIZE();
 
@@ -35,8 +45,8 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
                                                                                         //
             double y = gamepad1.left_stick_y;                                           //
-            double x = -gamepad1.left_stick_x;                                           //
-            double rx = -gamepad1.right_stick_x;                                         //
+            double x = -gamepad1.left_stick_x;                                          //
+            double rx = -gamepad1.right_stick_x;                                        //
                                                                                         //
             double denom = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);       //
             double lfPower = (y + x + rx) / denom;                                      //
@@ -64,9 +74,9 @@ public class Mec_TeleOp358 extends RobotMain358{
             /** INTAKE **/                                                              //
             intakeMotor.setPower(0);                                                    //
             if (gamepad1.right_trigger > 0.2) {                                         //
-                intakeMotor.setPower(1);                                                //
-            } else if (gamepad1.left_trigger > 0.2){                                    //
                 intakeMotor.setPower(-0.3);                                             //
+            } else if (gamepad1.left_trigger > 0.2){                                    //
+                intakeMotor.setPower(1);                                                //
             } else {                                                                    //
                 intakeMotor.setPower(0);                                                //
             }                                                                           //
@@ -88,7 +98,7 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
             // up                                                                       //
             else if (gamepad2.dpad_up) {                                                //
-                if (slideMotor.getCurrentPosition() >= 1500){                           //
+                if (slideMotor.getCurrentPosition() >= 1720){                           //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
                     slideMotor.setPower(0.8);                                           //
@@ -98,19 +108,19 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
                                                                                         //
             /** Black Box **/                                                           //
+            blackBox.setPower(0);                                                       //
             // in                                                                       //
-            if (gamepad2.left_stick_y == 0 && gamepad2.right_stick_y == 0){             //
+            if (gamepad2.right_stick_x == 0){                                           //
                 blackBox.setPower(0);                                                   //
             }                                                                           //
-            else if (gamepad2.left_stick_y < -0.5 && gamepad2.right_stick_y < -0.5) {   //
-                blackBox.setPower(0.3);                                                 //
-            }                                                                           //
-            // out                                                                      //
-            else if (gamepad2.left_stick_y > 0.5 && gamepad2.right_stick_y > 0.5){      //
-                blackBox.setPower(-0.3);                                                //
+            else if (gamepad2.right_stick_x < -0.05 || gamepad2.right_stick_x > 0.05){  //
+                blackBox.setPower(-0.4 * gamepad2.right_stick_x);                        //
             }                                                                           //
                                                                                         //
             //add telemetry                                                             //
+//            telemetry.addData("freight distance", dsFreight.getDistance(DistanceUnit.INCH));
+//            telemetry.addData("front distance", dsFront.getDistance(DistanceUnit.INCH));
+            telemetry.addData("time elapsed", String.format(java.util.Locale.US, "%.1f", runtime.seconds()));
             telemetry.addData("drive factor", driveFactor);                      //
             telemetry.addData("slide", slideMotor.getCurrentPosition());         //
             telemetry.update();                                                         //
@@ -118,7 +128,7 @@ public class Mec_TeleOp358 extends RobotMain358{
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
             // create gamepad rumble effects                                            //
-            if (runtime.seconds() == HALF_TIME)  {
+            if (runtime.seconds() == HALF_TIME) {
                 gamepad1.rumble(300);
                 gamepad2.rumble(300);
             } else if (runtime.seconds() == END_GAME) {

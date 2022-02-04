@@ -8,6 +8,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
 import java.lang.*;
 
 public abstract class RobotMain358 extends LinearOpMode {
@@ -23,7 +29,7 @@ public abstract class RobotMain358 extends LinearOpMode {
     protected DistanceSensor dsFront;
     protected DistanceSensor dsFreight;
 
-    public double driveFactor = 0.5; //for TeleOp
+    public double driveFactor = 0.7; //for TeleOp
     public final double slidePower = 0.1;
     public long lastTime = System.currentTimeMillis();
     public int timeElapsed = 1000; // this is in milliseconds
@@ -34,6 +40,12 @@ public abstract class RobotMain358 extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();    // Use to determine when end game is starting.
     final double HALF_TIME = 60.0;              // Wait this many seconds before rumble-alert for half-time.
     final double END_GAME = 90.0;               // Wait this many seconds before rumble-alert for end-time.
+
+    public static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    public static final String[] LABELS = {"Ball", "Cube"};
+    public static final String VUFORIA_KEY = "AbfVBDz/////AAABmYjPxLVfc06Kki/omu9b26Vk1TfvZO7giwjiWUu3cBC4GLD957469zF341ecaqFEoca1E35mbaSrBC/Hn5UZgPxpIjYNTOLRBJi72mUr9HO+mMAwuq9Qrs3MQ9E0OOTPolRHSiuorwRU/eTDNksoKVhNdtilPnWFktTaLS2dX6M8MiL3IXxUBxItTd+lbDuKLLVwPDO12DSWR1kOc11jKOnFBgfYUFrDLAq9X6yW74XQlOm26vE/mr/EJ3uO6y5QWysl9oQFGgoDioxqfRuCXQ2oy4BafcHVkwsMoJwAFeIP7zOVukmpIB7NzgZRQ8xy1+EfQTg75ojzmZplPf+wKWd4ypO4XJs3nGAk1kM+/thh";
+    public VuforiaLocalizer vuforia;
+    public TFObjectDetector tfod;
 
 
     public void CHASSIS_INITIALIZE() throws InterruptedException{
@@ -61,14 +73,17 @@ public abstract class RobotMain358 extends LinearOpMode {
 
         intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         blackBox = hardwareMap.crservo.get("blackBox");
+
+//        dsFront = hardwareMap.get(DistanceSensor.class, "dsFront");
+//        dsFreight = hardwareMap.get(DistanceSensor.class, "dsFreight");
     }
 
     // TeleOp Switch Drive
     public double switchDriveUp(double df){
         if (df == 0.3) {
-            return 0.6;
+            return 0.7;
         }
-        else if (df == 0.6){
+        else if (df == 0.7){
             return 1;
         }
         else if (df == 1){
@@ -81,11 +96,11 @@ public abstract class RobotMain358 extends LinearOpMode {
         if (df == 0.3) {
             return 0.3;
         }
-        else if (df == 0.6){
+        else if (df == 0.7){
             return 0.3;
         }
         else if (df == 1){
-            return 0.6;
+            return 0.7;
         }
         return df;
     }
@@ -250,7 +265,22 @@ public abstract class RobotMain358 extends LinearOpMode {
         }
     }
 
-    public void gamepadRumble(int seconds) {
-        gamepad1.rumble(0.75, 0.75, seconds * (1/1000));
-    }
+//    public void initVuforia() throws ExceptionInInitializerError {
+//
+//        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+//        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+//        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+//        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+//    }
+//
+//    public void initTfod() throws ExceptionInInitializerError {
+//        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+//                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+//        tfodParameters.minResultConfidence = 0.85f;
+//        tfodParameters.isModelTensorFlow2 = true;
+//        tfodParameters.inputSize = 320;
+//        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+//        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+//    }
 }

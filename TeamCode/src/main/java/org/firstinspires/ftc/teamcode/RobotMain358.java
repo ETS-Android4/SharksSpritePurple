@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -24,7 +25,8 @@ public abstract class RobotMain358 extends LinearOpMode {
     protected DcMotor slideMotor;
     protected DcMotor crMotor;
     protected DcMotor intakeMotor;
-    protected CRServo blackBox;
+    protected Servo blackBox;
+    protected CRServo hello;
 
     protected DistanceSensor dsFront;
     protected DistanceSensor dsFreight;
@@ -72,7 +74,9 @@ public abstract class RobotMain358 extends LinearOpMode {
         crMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
-        blackBox = hardwareMap.crservo.get("blackBox");
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blackBox = hardwareMap.servo.get("blackBox");
+        blackBox.setPosition(0.467);
 
 //        dsFront = hardwareMap.get(DistanceSensor.class, "dsFront");
 //        dsFreight = hardwareMap.get(DistanceSensor.class, "dsFreight");

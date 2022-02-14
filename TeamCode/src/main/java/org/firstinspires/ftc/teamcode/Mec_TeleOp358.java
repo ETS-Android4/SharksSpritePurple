@@ -63,9 +63,9 @@ public class Mec_TeleOp358 extends RobotMain358{
                                                                                         //
             /** CAROUSEL MOTORS **/                                                     //
             crMotor.setPower(0);                                                        //
-            if (gamepad2.a) {                                                           //
+            if (gamepad2.left_trigger > 0.1) {                                          //
                 crMotor.setPower(-0.45);                                                //
-            } else if (gamepad2.y) {                                                    //
+            } else if (gamepad2.right_trigger > 0.1) {                                  //
                 crMotor.setPower(0.45);                                                 //
             } else {                                                                    //
                 crMotor.setPower(0);                                                    //
@@ -90,7 +90,7 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
             // down                                                                     //
             if (gamepad2.dpad_down) {                                                   //
-                if (slideMotor.getCurrentPosition() <= 0){                              //
+                if (slideMotor.getCurrentPosition() <=50){                              //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
                     slideMotor.setPower(-0.8);                                          //
@@ -98,43 +98,48 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
             // up                                                                       //
             else if (gamepad2.dpad_up) {                                                //
-                if (slideMotor.getCurrentPosition() >= 1720){                           //
+                if (slideMotor.getCurrentPosition() >= 1820){                           //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
-                    slideMotor.setPower(0.8);                                           //
+                    slideMotor.setPower(1);                                             //
                 }                                                                       //
             } else {                                                                    //
                 slideMotor.setPower(slidePower);                                        //
             }                                                                           //
                                                                                         //
             /** Black Box **/                                                           //
-            blackBox.setPower(0);                                                       //
-            // in                                                                       //
-            if (gamepad2.right_stick_x == 0){                                           //
-                blackBox.setPower(0);                                                   //
-            }                                                                           //
-            else if (gamepad2.right_stick_x < -0.05 || gamepad2.right_stick_x > 0.05){  //
-                blackBox.setPower(-0.4 * gamepad2.right_stick_x);                        //
+            // reset                                                                    //
+            if (gamepad2.a || gamepad2.y) {                                             //
+                blackBox.setPosition(0.467);                                            //
+                gamepad2.stopRumble();
+            } // left                                                                   //
+            else if (gamepad2.right_stick_x < 0.2){                                                       //
+                blackBox.setPosition(0.85);                                             //
+                gamepad2.rumble(0.25, 0.5, Gamepad.RUMBLE_DURATION_CONTINUOUS); //
+            } // right                                                                  //
+            else if (gamepad2.right_stick_x > 0.2){                                                       //
+                blackBox.setPosition(0.068);                                            //
+                gamepad2.rumble(0.25, 0.5, Gamepad.RUMBLE_DURATION_CONTINUOUS); //
             }                                                                           //
                                                                                         //
             //add telemetry                                                             //
 //            telemetry.addData("freight distance", dsFreight.getDistance(DistanceUnit.INCH));
 //            telemetry.addData("front distance", dsFront.getDistance(DistanceUnit.INCH));
-            telemetry.addData("time elapsed", String.format(java.util.Locale.US, "%.1f", runtime.seconds()));
             telemetry.addData("drive factor", driveFactor);                      //
             telemetry.addData("slide", slideMotor.getCurrentPosition());         //
+            telemetry.addData("box", blackBox.getPosition());                    //
             telemetry.update();                                                         //
                                                                                         //
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
             // create gamepad rumble effects                                            //
-            if (runtime.seconds() == HALF_TIME) {
-                gamepad1.rumble(300);
-                gamepad2.rumble(300);
-            } else if (runtime.seconds() == END_GAME) {
-                gamepad1.rumble(1000);
-                gamepad2.rumble(1000);
-            }
+//            if (runtime.seconds() == HALF_TIME) {
+//                gamepad1.rumble(300);
+//                gamepad2.rumble(300);
+//            } else if (runtime.seconds() == END_GAME) {
+//                gamepad1.rumble(1000);
+//                gamepad2.rumble(1000);
+//            }
         }
     }
 }

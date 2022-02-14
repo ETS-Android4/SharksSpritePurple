@@ -23,10 +23,20 @@ public class TEST_SERVO extends LinearOpMode {
         while (opModeIsActive()) {
 
             if(gamepad1.left_bumper){
-                servo1.setPosition(0);
+                servo1.setPosition(0.85);
             } else if (gamepad1.right_bumper){
-                servo1.setPosition(180);
+                servo1.setPosition(0.068);
             }
+
+            if (gamepad2.left_bumper){
+                servo1.setPosition(servo1.getPosition() + 0.0005);
+            }
+            else if (gamepad2.right_bumper){
+                servo1.setPosition(servo1.getPosition() - 0.0005);
+            }
+
+            telemetry.addData("position", servo1.getPosition());
+            telemetry.update();
 
         }
     }

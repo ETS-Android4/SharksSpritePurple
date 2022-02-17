@@ -26,7 +26,6 @@ public abstract class RobotMain358 extends LinearOpMode {
     protected DcMotor crMotor;
     protected DcMotor intakeMotor;
     protected Servo blackBox;
-    protected CRServo hello;
 
     protected DistanceSensor dsFront;
     protected DistanceSensor dsFreight;
@@ -76,10 +75,10 @@ public abstract class RobotMain358 extends LinearOpMode {
         intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blackBox = hardwareMap.servo.get("blackBox");
-        blackBox.setPosition(0.467);
+        blackBox.setPosition(0.439);
 
-//        dsFront = hardwareMap.get(DistanceSensor.class, "dsFront");
-//        dsFreight = hardwareMap.get(DistanceSensor.class, "dsFreight");
+        dsFront = hardwareMap.get(DistanceSensor.class, "dsFront");
+        dsFreight = hardwareMap.get(DistanceSensor.class, "dsFreight");
     }
 
     // TeleOp Switch Drive

@@ -15,7 +15,9 @@ public class AUTONOMOUS_PARK extends RobotMain358{
         waitForStart();
         while (opModeIsActive() && !done) {
 
-            forward(70, 0.5);               //dash!!!
+
+
+
 
             done = true;
         }

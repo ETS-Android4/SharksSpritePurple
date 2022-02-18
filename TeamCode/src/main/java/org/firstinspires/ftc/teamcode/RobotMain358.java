@@ -35,8 +35,9 @@ public abstract class RobotMain358 extends LinearOpMode {
     public long lastTime = System.currentTimeMillis();
     public int timeElapsed = 1000; // this is in milliseconds
 
-    final double DRIVE_FACTOR = 30 * (10/9.2) * (10/10.2);
-    final double TURN_FACTOR = 5 * (90.0/95);
+    final double DRIVE_FACTOR = 64.6784;
+    final double TURN_FACTOR = 13.07005139;
+    final double STRAFE_FACTOR = 64.6784;
 
     ElapsedTime runtime = new ElapsedTime();    // Use to determine when end game is starting.
     final double HALF_TIME = 60.0;              // Wait this many seconds before rumble-alert for half-time.
@@ -108,7 +109,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         return df;
     }
 
-    public void forward (int inch, double power){
+    public void forward (double inch, double power){
         int ticks = (int) (inch * DRIVE_FACTOR);
 
         //Reset Encoders
@@ -143,7 +144,7 @@ public abstract class RobotMain358 extends LinearOpMode {
             telemetry.update();
             //Wait Until Target Position is Reached
         }
-        sleep(500);
+        sleep(200);
     }
 
     public void turn (int degree, double power){
@@ -181,11 +182,11 @@ public abstract class RobotMain358 extends LinearOpMode {
             telemetry.update();
             //Wait Until Target Position is Reached
         }
-        sleep(500);
+        sleep(200);
     }
 
-    public void strafe (int degree, double power){
-        int ticks = (int) (degree * TURN_FACTOR);
+    public void strafe (double inch, double power){
+        int ticks = (int) (inch * STRAFE_FACTOR);
 
         //Reset Encoders
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -219,7 +220,7 @@ public abstract class RobotMain358 extends LinearOpMode {
             telemetry.update();
             //Wait Until Target Position is Reached
         }
-        sleep(500);
+        sleep(200);
     }
 
     public void carousel(String state){
@@ -246,22 +247,20 @@ public abstract class RobotMain358 extends LinearOpMode {
 
     public void slideAuto(int position){
         /**
-         * LEVEL 1 = 500
-         * LEVEL 2 = 1000
-         * MAX / LEVEL 3 = 1700
+         * LEVEL 1 = 600 - 50
+         * LEVEL 2 = 1200 - 50
+         * MAX / LEVEL 3 = 1800 - 50
          * */
-        //Set Target Position
-        slideMotor.setTargetPosition(slideMotor.getCurrentPosition() + position);
 
-        //Set Drive Power
-        if (position > slideMotor.getCurrentPosition()) {
-            slideMotor.setPower(0.5);
-        } else if (position < slideMotor.getCurrentPosition()){
-            slideMotor.setPower(-0.3);
+        if (position == 1) {
+            slideMotor.setTargetPosition(550);
+        } else if (position == 2) {
+            slideMotor.setTargetPosition(1150);
+        } else if (position == 3) {
+            slideMotor.setTargetPosition(1750);
         }
 
-
-        //Set to RUN_TO_POSITION mode
+        slideMotor.setPower(0.7);
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (slideMotor.isBusy()){

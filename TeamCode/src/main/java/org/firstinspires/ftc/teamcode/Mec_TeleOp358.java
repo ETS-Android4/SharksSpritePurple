@@ -91,7 +91,7 @@ public class Mec_TeleOp358 extends RobotMain358{
                 slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);                //
             }                                                                           //
             // down                                                                     //
-            if (gamepad1.dpad_down) {                                                   //
+            if (gamepad2.dpad_down) {                                                   //
                 if (slideMotor.getCurrentPosition() <=20){                              //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
@@ -99,54 +99,53 @@ public class Mec_TeleOp358 extends RobotMain358{
                 }                                                                       //
             }                                                                           //
             // up                                                                       //
-            else if (gamepad1.dpad_up) {                                                //
+            else if (gamepad2.dpad_up) {                                                //
                 if (slideMotor.getCurrentPosition() >= 1750){                           //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
                     slideMotor.setPower(0.7);                                           //
                 }                                                                       //
-            // auto 3rd level
-            } else if (gamepad2.y) {
-                if (slideMotor.getCurrentPosition() > 1700) {
-
-                // up
-                } else if (slideMotor.getCurrentPosition() < 300) {
-                    slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);         //
-                    slideMotor.setTargetPosition(1700);
-                    slideMotor.setPower(0.7);
-                    slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);            //
-                }
+            // auto 3rd level                                                           //
             }
+//            else if (gamepad2.y) {                                                    //
+//                if (slideMotor.getCurrentPosition() > 1700) {                           //
+//                // up                                                                   //
+//                } else if (slideMotor.getCurrentPosition() < 300) {                     //
+//                    slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);         //
+//                    slideMotor.setTargetPosition(1700);                                 //
+//                    slideMotor.setPower(0.7);                                           //
+//                    slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);                //
+//                    slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);            //
+//                }                                                                       //
+//            }                                                                           //
             else {                                                                      //
-                slideMotor.setPower( slidePower);                                        //
+                slideMotor.setPower(slidePower);                                        //
             }                                                                           //
                                                                                         //
             /** Black Box **/                                                           //
             // reset                                                                    //
-            if (gamepad1.a || gamepad1.y) {                                             //
+            if (gamepad2.a || gamepad2.y) {                                             //
                 blackBox.setPosition(0.439);                                            //
             } // right                                                                  //
-            else if (gamepad1.b){                                                       //
+            else if (gamepad2.b){                                                       //
                 blackBox.setPosition(0.086);                                            //
                 gamepad2.rumble(1, 1, 400);                    //
                 gamepad2.rumble(0, 0, 200);                    //
                 gamepad2.rumble(1, 1, 400);                    //
             } // left                                                                   //
-            else if (gamepad1.x){                                                       //
+            else if (gamepad2.x){                                                       //
                 blackBox.setPosition(0.80);                                             //
                 gamepad2.rumble(1, 1, 400);                     //
-                gamepad2.rumble(0, 0, 200);                    //
-                gamepad2.rumble(1, 1, 400);                    //
+                gamepad2.rumble(0, 0, 200);                     //
+                gamepad2.rumble(1, 1, 400);                     //
             }                                                                           //
                                                                                         //
             // add rumble when a freight is in blackBox                                 //
             if (dsFreight.getDistance(DistanceUnit.INCH) < 2.5) {                       //
-                gamepad1.rumble(0.8, 0.8, Gamepad.RUMBLE_DURATION_CONTINUOUS);      //
-                gamepad2.rumble(0.3, 0.3, Gamepad.RUMBLE_DURATION_CONTINUOUS);      //
-            } else {
-                gamepad1.stopRumble();
-                gamepad2.stopRumble();
+                gamepad1.rumble(0.8, 0.8, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                gamepad2.rumble(0.5, 0.5, 500);                 //
+            } else {                                                                    //
+                gamepad1.stopRumble();                                                  //
             }                                                                           //
                                                                                         //
             //add telemetry                                                             //

@@ -11,11 +11,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.lang.*;
+import java.util.Locale;
 
 public abstract class RobotMain358 extends LinearOpMode {
     protected DcMotor lf;
@@ -34,6 +36,7 @@ public abstract class RobotMain358 extends LinearOpMode {
     public final double slidePower = 0.1;
     public long lastTime = System.currentTimeMillis();
     public int timeElapsed = 1000; // this is in milliseconds
+    public int position = 3;
 
     final double DRIVE_FACTOR = 64.6784;
     final double TURN_FACTOR = 13.07005139;
@@ -137,11 +140,11 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-            telemetry.addData("lf", -lf.getCurrentPosition());
-            telemetry.addData("rf", -rf.getCurrentPosition());
-            telemetry.addData("lb", -lb.getCurrentPosition());
-            telemetry.addData("rb", -rb.getCurrentPosition());
-            telemetry.update();
+//            telemetry.addData("lf", -lf.getCurrentPosition());
+//            telemetry.addData("rf", -rf.getCurrentPosition());
+//            telemetry.addData("lb", -lb.getCurrentPosition());
+//            telemetry.addData("rb", -rb.getCurrentPosition());
+//            telemetry.update();
             //Wait Until Target Position is Reached
         }
         sleep(200);
@@ -175,11 +178,11 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-            telemetry.addData("lf", -lf.getCurrentPosition());
-            telemetry.addData("rf", -rf.getCurrentPosition());
-            telemetry.addData("lb", -lb.getCurrentPosition());
-            telemetry.addData("rb", -rb.getCurrentPosition());
-            telemetry.update();
+//            telemetry.addData("lf", -lf.getCurrentPosition());
+//            telemetry.addData("rf", -rf.getCurrentPosition());
+//            telemetry.addData("lb", -lb.getCurrentPosition());
+//            telemetry.addData("rb", -rb.getCurrentPosition());
+//            telemetry.update();
             //Wait Until Target Position is Reached
         }
         sleep(200);
@@ -213,11 +216,11 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-            telemetry.addData("lf", -lf.getCurrentPosition());
-            telemetry.addData("rf", -rf.getCurrentPosition());
-            telemetry.addData("lb", -lb.getCurrentPosition());
-            telemetry.addData("rb", -rb.getCurrentPosition());
-            telemetry.update();
+//            telemetry.addData("lf", -lf.getCurrentPosition());
+//            telemetry.addData("rf", -rf.getCurrentPosition());
+//            telemetry.addData("lb", -lb.getCurrentPosition());
+//            telemetry.addData("rb", -rb.getCurrentPosition());
+//            telemetry.update();
             //Wait Until Target Position is Reached
         }
         sleep(200);
@@ -229,42 +232,84 @@ public abstract class RobotMain358 extends LinearOpMode {
         crMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set Target Position
-        crMotor.setTargetPosition(crMotor.getCurrentPosition() + 3000);
+        if (state == "red") {
+            crMotor.setTargetPosition(crMotor.getCurrentPosition() - 3000);
+        } else if (state == "blue") {
+            crMotor.setTargetPosition(crMotor.getCurrentPosition() + 3000);
+        }
 
         //Set Drive Power
-        if (state == "red") {
-            crMotor.setPower(0.3);
-        } else if (state == "blue") {
-            crMotor.setPower(-0.3);
-        }
+        crMotor.setPower(0.45);
 
         //Set to RUN_TO_POSITION mode
         crMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (crMotor.isBusy()){
-        }
+        while (crMotor.isBusy()){}
     }
 
-    public void slideAuto(int position){
+    public void slideAuto(){
         /**
          * LEVEL 1 = 600 - 50
          * LEVEL 2 = 1200 - 50
          * MAX / LEVEL 3 = 1800 - 50
          * */
 
-        if (position == 1) {
+        // set target position based on sensed position
+        if (position == 0) {
+            slideMotor.setTargetPosition(50);
+        } else if (position == 1) {
+            strafe(-1,0.5);
             slideMotor.setTargetPosition(550);
         } else if (position == 2) {
+            strafe(-2,0.5);
             slideMotor.setTargetPosition(1150);
         } else if (position == 3) {
+            strafe(-2,0.5);
             slideMotor.setTargetPosition(1750);
         }
 
+        // set power and mode
         slideMotor.setPower(0.7);
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (slideMotor.isBusy()){
+        while (slideMotor.isBusy()){}
+
+    }
+
+    public void dsAuto() {
+        // drive to the first detection position
+        forward(8,0.3);
+        // wait a second for accuracy
+        sleep(500);
+
+        telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
+        telemetry.update();
+
+        // if we successfully detect the marker
+        if (dsFront.getDistance(DistanceUnit.INCH) < 12) {
+            // tell the program to put the cube at the first level
+            position = 1;
         }
+
+        // drive to the second detection position
+        forward(-9.5,0.3);
+        // wait a second for accuracy
+        sleep(500);
+
+        telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
+        telemetry.update();
+
+        // if we successfully detect the marker
+        if (dsFront.getDistance(DistanceUnit.INCH) < 6) {
+            // tell the program to put the cube at the second level
+            position = 2;
+        }
+
+        // if the marker is not at either position 1 or 2, then it must be at 3,
+        // which is preset to 3, so we don't have to change it again.
+
+        telemetry.addData("position", position);
+        telemetry.update();
     }
 
 //    public void initVuforia() throws ExceptionInInitializerError {

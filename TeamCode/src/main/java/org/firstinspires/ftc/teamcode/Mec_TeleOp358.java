@@ -83,6 +83,7 @@ public class Mec_TeleOp358 extends RobotMain358{
                 intakeMotor.setPower(0);                                                //
             }                                                                           //
                                                                                         //
+            //////////////////////////////////////////////////////////////////////////////
             /** SLIDE MOTORS **/                                                        //
             // reset button                                                             //
             slideMotor.setPower(slidePower);                                            //
@@ -100,14 +101,14 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
             // up                                                                       //
             else if (gamepad2.dpad_up) {                                                //
-                if (slideMotor.getCurrentPosition() >= 1750){                           //
+                if (slideMotor.getCurrentPosition() >= 1700){                           //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
                     slideMotor.setPower(0.7);                                           //
                 }                                                                       //
             // auto 3rd level                                                           //
-            }
-//            else if (gamepad2.y) {                                                    //
+            }                                                                           //
+//            else if (gamepad2.y) {                                                      //
 //                if (slideMotor.getCurrentPosition() > 1700) {                           //
 //                // up                                                                   //
 //                } else if (slideMotor.getCurrentPosition() < 300) {                     //
@@ -121,6 +122,7 @@ public class Mec_TeleOp358 extends RobotMain358{
             else {                                                                      //
                 slideMotor.setPower(slidePower);                                        //
             }                                                                           //
+           ///////////////////////////////////////////////////////////////////////////////
                                                                                         //
             /** Black Box **/                                                           //
             // reset                                                                    //

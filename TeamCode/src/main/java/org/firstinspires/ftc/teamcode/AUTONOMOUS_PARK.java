@@ -13,13 +13,18 @@ public class AUTONOMOUS_PARK extends RobotMain358{
         CHASSIS_INITIALIZE();
 
         waitForStart();
-        while (opModeIsActive() && !done) {
+        while (opModeIsActive()) {
+
+            blackBox.setPosition(0.086);
+            sleep(500);
+
+            telemetry.addData("hello", blackBox.getPosition());
+            telemetry.update();
 
 
 
 
 
-            done = true;
         }
     }
 }

@@ -96,7 +96,7 @@ public class Mec_TeleOp358 extends RobotMain358{
                 if (slideMotor.getCurrentPosition() <=20){                              //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
-                    slideMotor.setPower(-0.5);                                          //
+                    slideMotor.setPower(-0.7);                                          //
                 }                                                                       //
             }                                                                           //
             // up                                                                       //
@@ -104,7 +104,7 @@ public class Mec_TeleOp358 extends RobotMain358{
                 if (slideMotor.getCurrentPosition() >= 1700){                           //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
-                    slideMotor.setPower(0.7);                                           //
+                    slideMotor.setPower(1);                                           //
                 }                                                                       //
             // auto 3rd level                                                           //
             }                                                                           //

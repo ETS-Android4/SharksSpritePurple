@@ -76,7 +76,7 @@ public class Mec_TeleOp358 extends RobotMain358{
             /** INTAKE **/                                                              //
             intakeMotor.setPower(0);                                                    //
             if (gamepad1.left_trigger > 0.2) {                                          //
-                intakeMotor.setPower(0.5);                                              //
+                intakeMotor.setPower(-0.3);                                              //
             } else if (gamepad1.right_trigger > 0.2){                                   //
                 intakeMotor.setPower(0.7);                                              //
             } else {                                                                    //

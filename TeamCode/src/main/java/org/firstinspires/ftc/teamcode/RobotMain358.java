@@ -36,7 +36,6 @@ public abstract class RobotMain358 extends LinearOpMode {
     public final double slidePower = 0.1;
     public long lastTime = System.currentTimeMillis();
     public int timeElapsed = 1000; // this is in milliseconds
-    public int position = 3;
 
     final double DRIVE_FACTOR = 64.6784;
     final double TURN_FACTOR = 13.07005139;
@@ -91,10 +90,10 @@ public abstract class RobotMain358 extends LinearOpMode {
             return 0.7;
         }
         else if (df == 0.7){
-            return 1;
+            return 0.9;
         }
-        else if (df == 1){
-            return 1;
+        else if (df == 0.9){
+            return 0.9;
         }
         return df;
     }
@@ -106,7 +105,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         else if (df == 0.7){
             return 0.3;
         }
-        else if (df == 1){
+        else if (df == 0.9){
             return 0.7;
         }
         return df;
@@ -233,9 +232,9 @@ public abstract class RobotMain358 extends LinearOpMode {
 
         //Set Target Position
         if (state == "red") {
-            crMotor.setTargetPosition(crMotor.getCurrentPosition() - 3000);
+            crMotor.setTargetPosition(crMotor.getCurrentPosition() - 2000);
         } else if (state == "blue") {
-            crMotor.setTargetPosition(crMotor.getCurrentPosition() + 3000);
+            crMotor.setTargetPosition(crMotor.getCurrentPosition() + 2000);
         }
 
         //Set Drive Power
@@ -245,71 +244,6 @@ public abstract class RobotMain358 extends LinearOpMode {
         crMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (crMotor.isBusy()){}
-    }
-
-    public void slideAuto(){
-        /**
-         * LEVEL 1 = 600 - 50
-         * LEVEL 2 = 1200 - 50
-         * MAX / LEVEL 3 = 1800 - 50
-         * */
-
-        // set target position based on sensed position
-        if (position == 0) {
-            slideMotor.setTargetPosition(50);
-        } else if (position == 1) {
-            strafe(-1,0.5);
-            slideMotor.setTargetPosition(550);
-        } else if (position == 2) {
-            strafe(-2,0.5);
-            slideMotor.setTargetPosition(1150);
-        } else if (position == 3) {
-            strafe(-2,0.5);
-            slideMotor.setTargetPosition(1750);
-        }
-
-        // set power and mode
-        slideMotor.setPower(0.7);
-        slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while (slideMotor.isBusy()){}
-
-    }
-
-    public void dsAuto() {
-        // drive to the first detection position
-        forward(8,0.3);
-        // wait a second for accuracy
-        sleep(500);
-
-        telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
-        telemetry.update();
-
-        // if we successfully detect the marker
-        if (dsFront.getDistance(DistanceUnit.INCH) < 12) {
-            // tell the program to put the cube at the first level
-            position = 1;
-        }
-
-        // drive to the second detection position
-        forward(-9.5,0.3);
-        // wait a second for accuracy
-        sleep(500);
-
-        telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
-        telemetry.update();
-
-        // if we successfully detect the marker
-        if (dsFront.getDistance(DistanceUnit.INCH) < 6) {
-            // tell the program to put the cube at the second level
-            position = 2;
-        }
-
-        // if the marker is not at either position 1 or 2, then it must be at 3,
-        // which is preset to 3, so we don't have to change it again.
-
-        telemetry.addData("position", position);
-        telemetry.update();
     }
 
 //    public void initVuforia() throws ExceptionInInitializerError {

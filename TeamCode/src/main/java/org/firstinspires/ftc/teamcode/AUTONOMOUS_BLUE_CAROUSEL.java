@@ -8,10 +8,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import java.util.Locale;
 
 @Autonomous
-public class AUTONOMOUS_RED_CAROUSEL extends RobotMain358{
+public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358{
 
     private boolean done = false;
     public int position;
+    public boolean one = false;
 
     public void runOpMode() throws InterruptedException {
 
@@ -19,16 +20,16 @@ public class AUTONOMOUS_RED_CAROUSEL extends RobotMain358{
 
         waitForStart();
         while (opModeIsActive() && !done) {
-            position = 3;
+            position = 1;
 
-            forward(14,1);
+            forward(14,0.5);
             turn(-90,0.5);
 
             dsAuto();
 
-            forward(-12,1);
-            turn(90,0.5);
-            forward(24, 1);
+            strafe(-33,0.5);
+            strafe(8,0.5);
+            turn(-90,0.5);
 
             slideAuto();
 
@@ -40,21 +41,23 @@ public class AUTONOMOUS_RED_CAROUSEL extends RobotMain358{
             position = 0;
             slideAuto();
 
-            strafe(48,1);
-            forward(-26,1);
-            forward(-4,0.5);
-            strafe(-10,0.7);
-            turn(-45, 0.5);
-            strafe(8,0.7);
-            strafe(2,.5);
+            strafe(5,0.5);
+            forward(-5,0.5);
+            turn(90,0.5);
 
-            carousel("red");
+            forward(-30,0.5);
+            forward(-5,0.5);
 
-            strafe(-8,0.7);
-            turn(45,0.5);
-            strafe(20,1);
-            forward(17,1);
+            if (one) {
+                strafe(41,0.5);
+            } else {
+                strafe(39,0.5);
+            }
 
+
+            carousel("blue");
+
+            strafe(-19,1);
             done = true;
         }
     }
@@ -70,13 +73,14 @@ public class AUTONOMOUS_RED_CAROUSEL extends RobotMain358{
         if (position == 0) {
             slideMotor.setTargetPosition(50);
         } else if (position == 1) {
-            strafe(-1,0.5);
+            one = true;
+            strafe(-5,0.5);
             slideMotor.setTargetPosition(550);
         } else if (position == 2) {
-            strafe(-2,0.5);
+            strafe(-7,0.5);
             slideMotor.setTargetPosition(1150);
         } else if (position == 3) {
-            strafe(-2,0.5);
+            strafe(-7,0.5);
             slideMotor.setTargetPosition(1750);
         }
 
@@ -89,8 +93,7 @@ public class AUTONOMOUS_RED_CAROUSEL extends RobotMain358{
     }
 
     public void dsAuto() {
-        // drive to the first detection position
-        forward(8,0.3);
+
         // wait a second for accuracy
         sleep(500);
 
@@ -100,11 +103,11 @@ public class AUTONOMOUS_RED_CAROUSEL extends RobotMain358{
         // if we successfully detect the marker
         if (dsFront.getDistance(DistanceUnit.INCH) < 10) {
             // tell the program to put the cube at the first level
-            position = 1;
+            position = 3;
         }
 
         // drive to the second detection position
-        forward(-9.5,0.3);
+        forward(10,0.3);
         // wait a second for accuracy
         sleep(500);
 

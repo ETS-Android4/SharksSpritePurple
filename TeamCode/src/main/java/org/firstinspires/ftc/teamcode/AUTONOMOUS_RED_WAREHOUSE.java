@@ -38,7 +38,7 @@ public class AUTONOMOUS_RED_WAREHOUSE extends RobotMain358{
             position = 0;
             slideAuto();
 
-            strafe(10,0.5);
+            strafe(12,0.5);
             sleep(500);
             forward(-60,1);
 //
@@ -75,10 +75,10 @@ public class AUTONOMOUS_RED_WAREHOUSE extends RobotMain358{
             strafe(-9,0.5);
             slideMotor.setTargetPosition(550);
         } else if (position == 2) {
-            strafe(-12,0.5);
+            strafe(-13,0.5);
             slideMotor.setTargetPosition(1150);
         } else if (position == 3) {
-            strafe(-12,0.5);
+            strafe(-13,0.5);
             slideMotor.setTargetPosition(1750);
         }
 

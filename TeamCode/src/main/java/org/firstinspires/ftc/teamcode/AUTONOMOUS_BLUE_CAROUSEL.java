@@ -74,13 +74,13 @@ public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358{
             slideMotor.setTargetPosition(50);
         } else if (position == 1) {
             one = true;
-            strafe(-5,0.5);
+            strafe(-4,0.5);
             slideMotor.setTargetPosition(550);
         } else if (position == 2) {
-            strafe(-7,0.5);
+            strafe(-5,0.5);
             slideMotor.setTargetPosition(1150);
         } else if (position == 3) {
-            strafe(-7,0.5);
+            strafe(-5,0.5);
             slideMotor.setTargetPosition(1750);
         }
 

@@ -53,9 +53,12 @@ public class Mec_TeleOp358 extends RobotMain358{
             lb.setPower((drY + drR - drX) * -driveFactor);                              //
             rb.setPower((drY - drR + drX) * -driveFactor);                              //
                                                                                         //
-            if (gamepad1.dpad_right) {                                                  //
+            if (gamepad1.b) {                                                           //
                 strafeRightTeleOp();                                                    //
-            }                                                                           //
+            }
+//            else if (gamepad2.x) {
+//                strafeLeftTeleOp();
+//            }
                                                                                         //
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
@@ -79,6 +82,8 @@ public class Mec_TeleOp358 extends RobotMain358{
             } else if (driveFactor == 0.9) {
                 if (gamepad1.right_trigger > 0.2) {
                     intakeMotor.setPower(1);
+                } else if (gamepad2.left_trigger > 0.2) {
+                    intakeMotor.setPower(-0.6);
                 } else {
                     intakeMotor.setPower(0);
                 }

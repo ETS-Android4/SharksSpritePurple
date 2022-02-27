@@ -28,7 +28,8 @@ public class Mec_TeleOp358 extends RobotMain358{
 
             runtime.reset();    // Start game timer.
 
-///////////////////////////// Drive Train ////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+            /** Drive Train **/                                                         //
                                                                                         //
             // define slow drive                                                        //
             if (gamepad1.right_bumper){                                                 //
@@ -36,35 +37,26 @@ public class Mec_TeleOp358 extends RobotMain358{
                     driveFactor = switchDriveUp(driveFactor);                           //
                     lastTime = System.currentTimeMillis();                              //
                 }                                                                       //
-            }                                                                           //
-                                                                                        //
-            // define slow drive                                                        //
-            if (gamepad1.left_bumper){                                                  //
+            } else if (gamepad1.left_bumper){                                           //
                 if (System.currentTimeMillis() - lastTime > timeElapsed){               //
                     driveFactor = switchDriveDown(driveFactor);                         //
                     lastTime = System.currentTimeMillis();                              //
                 }                                                                       //
             }                                                                           //
                                                                                         //
-            double y = gamepad1.left_stick_y;                                           //
-            double x = -gamepad1.left_stick_x;                                          //
-            double rx = -gamepad1.right_stick_x;                                        //
+            double drX = Math.pow(gamepad1.left_stick_x, 1);                            //
+            double drY = -Math.pow(gamepad1.left_stick_y, 1);                           //
+            double drR = Math.pow(gamepad1.right_stick_x, 1);                           //
                                                                                         //
-            double denom = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);       //
-            double lfPower = (y + x + rx) / denom;                                      //
-            double lbPower = (y - x + rx) / denom;                                      //
-            double rfPower = (y - x - rx) / denom;                                      //
-            double rbPower = (y + x - rx) / denom;                                      //
+            lf.setPower((drY + drR + drX) * -driveFactor);                              //
+            rf.setPower((drY - drR - drX) * -driveFactor);                              //
+            lb.setPower((drY + drR - drX) * -driveFactor);                              //
+            rb.setPower((drY - drR + drX) * -driveFactor);                              //
                                                                                         //
-            lf.setPower(lfPower * driveFactor);                                         //
-            lb.setPower(lbPower * driveFactor);                                         //
-            rf.setPower(rfPower * driveFactor);                                         //
-            rb.setPower(rbPower * driveFactor);                                         //
+            if (gamepad1.dpad_right) {                                                  //
+                strafeRightTeleOp();                                                    //
+            }                                                                           //
                                                                                         //
-            if (gamepad1.dpad_right) {
-                strafeRightTeleOp();
-            }
-
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
             /** CAROUSEL MOTORS **/                                                     //
@@ -77,37 +69,23 @@ public class Mec_TeleOp358 extends RobotMain358{
                 crMotor.setPower(0);                                                    //
             }                                                                           //
                                                                                         //
-            /** INTAKE **/                                                              //
-//            if (gamepad1.dpad_down) {
-//                controlled = false;
-//            } else if (gamepad1.dpad_up) {
-//                controlled = true;
-//            }
-
-//            if (controlled) {
-//                intakeMotor.setPower(0);                                                    //
-//                if (gamepad1.left_trigger > 0.2) {                                          //
-//                    intakeMotor.setPower(-0.6);                                              //
-//                } else if (gamepad1.right_trigger > 0.2){                                   //
-//                    intakeMotor.setPower(1);                                              //
-//                } else {                                                                    //
-//                    intakeMotor.setPower(0);                                                //
-//                }                                                                           //
-//            }
-            if (!controlled) {
-                intakeMotor.setPower(0);
-                if (gamepad1.left_trigger > 0.2) {                                          //
-                    intakeMotor.setPower(-0.6);                                              //
-//                } else if (gamepad1.right_trigger > 0.2){                                   //
-//                    intakeMotor.setPower(1);                                              //
-                } else if (driveFactor == 0.7) {
+            /** INTAKE **/
+            if (driveFactor == 0.7) {
+                if (gamepad1.left_trigger > 0.2) {
+                    intakeMotor.setPower(-0.6);
+                } else {
                     intakeMotor.setPower(1);
-                } else if (driveFactor == 0.9) {
+                }
+            } else if (driveFactor == 0.9) {
+                if (gamepad1.right_trigger > 0.2) {
+                    intakeMotor.setPower(1);
+                } else {
                     intakeMotor.setPower(0);
                 }
             }
 
 //////////////////////////////////////////////////////////////////////////////////////////
+                                                                                        //
             /** SLIDE MOTORS **/                                                        //
             // reset button                                                             //
             slideMotor.setPower(slidePower);                                            //
@@ -128,29 +106,16 @@ public class Mec_TeleOp358 extends RobotMain358{
                 if (slideMotor.getCurrentPosition() >= 1700){                           //
                     slideMotor.setPower(slidePower);                                    //
                 } else {                                                                //
-                    slideMotor.setPower(1);                                           //
+                    slideMotor.setPower(1);                                             //
                 }                                                                       //
-            // auto 3rd level                                                           //
-            }                                                                           //
-//            else if (gamepad2.y) {                                                      //
-//                if (slideMotor.getCurrentPosition() > 1700) {                           //
-//                // up                                                                   //
-//                } else if (slideMotor.getCurrentPosition() < 300) {                     //
-//                    slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);         //
-//                    slideMotor.setTargetPosition(1700);                                 //
-//                    slideMotor.setPower(0.7);                                           //
-//                    slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);                //
-//                    slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);            //
-//                }                                                                       //
-//            }                                                                           //
-            else {                                                                      //
+            } else {                                                                    //
                 slideMotor.setPower(slidePower);                                        //
             }                                                                           //
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
             /** Black Box **/                                                           //
             // reset                                                                    //
-            if (gamepad2.a) {                                             //
+            if (gamepad2.a) {                                                           //
                 blackBox.setPosition(0.439);                                            //
             } // right                                                                  //
             else if (gamepad2.b){                                                       //
@@ -177,18 +142,23 @@ public class Mec_TeleOp358 extends RobotMain358{
             /** Stuck **/
             if (gamepad2.y) {
                 if (stuckPosition == 0) {
-                    stuck.setPosition(0.5);
-                    stuckPosition = 1;
-                    gamepad2.rumble(0.5, 0.5, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    if (System.currentTimeMillis() - lastTime > timeElapsed) {
+                        stuck.setPosition(0.5);
+                        stuckPosition = 1;
+                        lastTime = System.currentTimeMillis();
+                        gamepad2.rumble(0.5, 0.5, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    }
                 } else if (stuckPosition == 1){
-                    stuck.setPosition(0.17);
-                    stuckPosition = 0;
-                    gamepad2.stopRumble();
+                    if (System.currentTimeMillis() - lastTime > timeElapsed) {
+                        stuck.setPosition(0.17);
+                        stuckPosition = 0;
+                        lastTime = System.currentTimeMillis();
+                        gamepad2.stopRumble();
+                    }
                 }
             }
 
-            //
-            //add telemetry                                                             //
+            //add telemetry
 //            telemetry.addData("range-side", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
 //            telemetry.addData("range-box", String.format(Locale.US, "%.01f in", dsFreight.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range-right", String.format(Locale.US, "%.01f in", dsRight.getDistance(DistanceUnit.INCH)));

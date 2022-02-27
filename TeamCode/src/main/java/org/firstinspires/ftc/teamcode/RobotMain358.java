@@ -207,9 +207,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         sleep(200);
     }
 
-    public void strafeLeftTeleOp (double inch, double power){
-//        int ticks = (int) (inch * STRAFE_FACTOR);
-
+    public void strafeLeftTeleOp (){
         //Reset Encoders
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -223,10 +221,10 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setTargetPosition(rb.getCurrentPosition() + 20000);
 
         //Set Drive Power
-        lf.setPower(power);
-        lb.setPower(power);
-        rf.setPower(power);
-        rb.setPower(power);
+        lf.setPower(0.7);
+        lb.setPower(0.7);
+        rf.setPower(0.7);
+        rb.setPower(0.7);
 
         //Set to RUN_TO_POSITION mode
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -235,14 +233,22 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-            //Wait Until Target Position is Reached
+            if (dsRight.getDistance(DistanceUnit.INCH) <= 5 || gamepad1.a) {
+                // TODO: Change Right to Left
+                lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
         }
-        sleep(200);
     }
 
     public void strafeRightTeleOp (){
-//        int ticks = (int) (inch * STRAFE_FACTOR);
-
         //Reset Encoders
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -268,18 +274,11 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-
             if (dsRight.getDistance(DistanceUnit.INCH) <= 5 || gamepad1.a) {
                 lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                slideMotor.setTargetPosition(1700);
-                slideMotor.setPower(1);
-                slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); sleep(1000);
-                slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
                 lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

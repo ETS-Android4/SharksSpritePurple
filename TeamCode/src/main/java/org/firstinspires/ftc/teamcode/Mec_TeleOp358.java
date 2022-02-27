@@ -82,7 +82,7 @@ public class Mec_TeleOp358 extends RobotMain358{
             } else if (driveFactor == 0.9) {
                 if (gamepad1.right_trigger > 0.2) {
                     intakeMotor.setPower(1);
-                } else if (gamepad2.left_trigger > 0.2) {
+                } else if (gamepad1.left_trigger > 0.2) {
                     intakeMotor.setPower(-0.6);
                 } else {
                     intakeMotor.setPower(0);

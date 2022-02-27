@@ -28,11 +28,15 @@ public abstract class RobotMain358 extends LinearOpMode {
     protected DcMotor crMotor;
     protected DcMotor intakeMotor;
     protected Servo blackBox;
+    protected Servo stuck;
 
     protected DistanceSensor dsFront;
     protected DistanceSensor dsFreight;
+//    protected DistanceSensor dsLeft;
+    protected DistanceSensor dsRight;
+//    protected DistanceSensor dsFront;
 
-    public double driveFactor = 0.7; //for TeleOp
+    public double driveFactor = 0.9; //for TeleOp
     public final double slidePower = 0.1;
     public long lastTime = System.currentTimeMillis();
     public int timeElapsed = 1000; // this is in milliseconds
@@ -50,7 +54,8 @@ public abstract class RobotMain358 extends LinearOpMode {
     public static final String VUFORIA_KEY = "AbfVBDz/////AAABmYjPxLVfc06Kki/omu9b26Vk1TfvZO7giwjiWUu3cBC4GLD957469zF341ecaqFEoca1E35mbaSrBC/Hn5UZgPxpIjYNTOLRBJi72mUr9HO+mMAwuq9Qrs3MQ9E0OOTPolRHSiuorwRU/eTDNksoKVhNdtilPnWFktTaLS2dX6M8MiL3IXxUBxItTd+lbDuKLLVwPDO12DSWR1kOc11jKOnFBgfYUFrDLAq9X6yW74XQlOm26vE/mr/EJ3uO6y5QWysl9oQFGgoDioxqfRuCXQ2oy4BafcHVkwsMoJwAFeIP7zOVukmpIB7NzgZRQ8xy1+EfQTg75ojzmZplPf+wKWd4ypO4XJs3nGAk1kM+/thh";
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
-
+    public int stuckPosition = 0;
+    public boolean controlled = false;
 
     public void CHASSIS_INITIALIZE() throws InterruptedException{
         lf = hardwareMap.dcMotor.get("lf");
@@ -79,9 +84,13 @@ public abstract class RobotMain358 extends LinearOpMode {
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         blackBox = hardwareMap.servo.get("blackBox");
         blackBox.setPosition(0.439);
+        stuck = hardwareMap.servo.get("stuck");
+        stuck.setPosition(0.17);
 
         dsFront = hardwareMap.get(DistanceSensor.class, "dsFront");
         dsFreight = hardwareMap.get(DistanceSensor.class, "dsFreight");
+//        dsLeft = hardwareMap.get(DistanceSensor.class, "dsLeft");
+        dsRight = hardwareMap.get(DistanceSensor.class, "dsRight");
     }
 
     // TeleOp Switch Drive

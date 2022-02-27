@@ -74,16 +74,37 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
                                                                                         //
             /** INTAKE **/                                                              //
-            intakeMotor.setPower(0);                                                    //
-            if (gamepad1.left_trigger > 0.2) {                                          //
-                intakeMotor.setPower(-0.3);                                              //
-            } else if (gamepad1.right_trigger > 0.2){                                   //
-                intakeMotor.setPower(1);                                              //
-            } else {                                                                    //
-                intakeMotor.setPower(0);                                                //
-            }                                                                           //
+//            if (gamepad1.dpad_down) {
+//                controlled = false;
+//            } else if (gamepad1.dpad_up) {
+//                controlled = true;
+//            }
+
+//            if (controlled) {
+//                intakeMotor.setPower(0);                                                    //
+//                if (gamepad1.left_trigger > 0.2) {                                          //
+//                    intakeMotor.setPower(-0.6);                                              //
+//                } else if (gamepad1.right_trigger > 0.2){                                   //
+//                    intakeMotor.setPower(1);                                              //
+//                } else {                                                                    //
+//                    intakeMotor.setPower(0);                                                //
+//                }                                                                           //
+//            }
+            if (!controlled) {
+                intakeMotor.setPower(0);
+                if (gamepad1.left_trigger > 0.2) {                                          //
+                    intakeMotor.setPower(-0.6);                                              //
+//                } else if (gamepad1.right_trigger > 0.2){                                   //
+//                    intakeMotor.setPower(1);                                              //
+                } else if (driveFactor == 0.7) {
+                    intakeMotor.setPower(1);
+                } else if (driveFactor == 0.9) {
+                    intakeMotor.setPower(0);
+                }
+            }
+
                                                                                         //
-            //////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
             /** SLIDE MOTORS **/                                                        //
             // reset button                                                             //
             slideMotor.setPower(slidePower);                                            //
@@ -122,11 +143,11 @@ public class Mec_TeleOp358 extends RobotMain358{
             else {                                                                      //
                 slideMotor.setPower(slidePower);                                        //
             }                                                                           //
-           ///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
             /** Black Box **/                                                           //
             // reset                                                                    //
-            if (gamepad2.a || gamepad2.y) {                                             //
+            if (gamepad2.a) {                                             //
                 blackBox.setPosition(0.439);                                            //
             } // right                                                                  //
             else if (gamepad2.b){                                                       //
@@ -143,19 +164,35 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
                                                                                         //
             // add rumble when a freight is in blackBox                                 //
-            if (dsFreight.getDistance(DistanceUnit.INCH) < 2.5) {                       //
+            if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {                       //
                 gamepad1.rumble(0.8, 0.8, Gamepad.RUMBLE_DURATION_CONTINUOUS);
                 gamepad2.rumble(0.5, 0.5, 500);                 //
             } else {                                                                    //
                 gamepad1.stopRumble();                                                  //
             }                                                                           //
-                                                                                        //
+
+            /** Stuck **/
+            if (gamepad2.y) {
+                if (stuckPosition == 0) {
+                    stuck.setPosition(0.5);
+                    stuckPosition = 1;
+                    gamepad2.rumble(0.5, 0.5, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                } else if (stuckPosition == 1){
+                    stuck.setPosition(0.17);
+                    stuckPosition = 0;
+                    gamepad2.stopRumble();
+                }
+            }
+
+            //
             //add telemetry                                                             //
-            telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFreight.getDistance(DistanceUnit.INCH)));
+//            telemetry.addData("range-side", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
+//            telemetry.addData("range-box", String.format(Locale.US, "%.01f in", dsFreight.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range-right", String.format(Locale.US, "%.01f in", dsRight.getDistance(DistanceUnit.INCH)));
             telemetry.addData("drive factor", driveFactor);                      //
             telemetry.addData("slide", slideMotor.getCurrentPosition());         //
             telemetry.addData("box", blackBox.getPosition());                    //
+            telemetry.addData("stuck", stuck.getPosition());                    //
             telemetry.update();                                                         //
                                                                                         //
 //////////////////////////////////////////////////////////////////////////////////////////

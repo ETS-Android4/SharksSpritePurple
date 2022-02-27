@@ -39,7 +39,7 @@ public abstract class RobotMain358 extends LinearOpMode {
     public double driveFactor = 0.9; //for TeleOp
     public final double slidePower = 0.1;
     public long lastTime = System.currentTimeMillis();
-    public int timeElapsed = 1000; // this is in milliseconds
+    public int timeElapsed = 500; // this is in milliseconds
 
     final double DRIVE_FACTOR = 64.6784;
     final double TURN_FACTOR = 13.07005139;
@@ -95,26 +95,14 @@ public abstract class RobotMain358 extends LinearOpMode {
 
     // TeleOp Switch Drive
     public double switchDriveUp(double df){
-        if (df == 0.3) {
-            return 0.7;
-        }
-        else if (df == 0.7){
+       if (df == 0.7){
             return 0.9;
-        }
-        else if (df == 0.9){
-            return 0.9;
-        }
-        return df;
+       }
+       return df;
     }
 
     public double switchDriveDown(double df){
-        if (df == 0.3) {
-            return 0.3;
-        }
-        else if (df == 0.7){
-            return 0.3;
-        }
-        else if (df == 0.9){
+        if (df == 0.9){
             return 0.7;
         }
         return df;
@@ -148,11 +136,6 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-//            telemetry.addData("lf", -lf.getCurrentPosition());
-//            telemetry.addData("rf", -rf.getCurrentPosition());
-//            telemetry.addData("lb", -lb.getCurrentPosition());
-//            telemetry.addData("rb", -rb.getCurrentPosition());
-//            telemetry.update();
             //Wait Until Target Position is Reached
         }
         sleep(200);
@@ -186,11 +169,6 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-//            telemetry.addData("lf", -lf.getCurrentPosition());
-//            telemetry.addData("rf", -rf.getCurrentPosition());
-//            telemetry.addData("lb", -lb.getCurrentPosition());
-//            telemetry.addData("rb", -rb.getCurrentPosition());
-//            telemetry.update();
             //Wait Until Target Position is Reached
         }
         sleep(200);
@@ -224,14 +202,91 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-//            telemetry.addData("lf", -lf.getCurrentPosition());
-//            telemetry.addData("rf", -rf.getCurrentPosition());
-//            telemetry.addData("lb", -lb.getCurrentPosition());
-//            telemetry.addData("rb", -rb.getCurrentPosition());
-//            telemetry.update();
             //Wait Until Target Position is Reached
         }
         sleep(200);
+    }
+
+    public void strafeLeftTeleOp (double inch, double power){
+//        int ticks = (int) (inch * STRAFE_FACTOR);
+
+        //Reset Encoders
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        lf.setTargetPosition(lf.getCurrentPosition() + 20000);
+        lb.setTargetPosition(lb.getCurrentPosition() - 20000);
+        rf.setTargetPosition(rf.getCurrentPosition() - 20000);
+        rb.setTargetPosition(rb.getCurrentPosition() + 20000);
+
+        //Set Drive Power
+        lf.setPower(power);
+        lb.setPower(power);
+        rf.setPower(power);
+        rb.setPower(power);
+
+        //Set to RUN_TO_POSITION mode
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+            //Wait Until Target Position is Reached
+        }
+        sleep(200);
+    }
+
+    public void strafeRightTeleOp (){
+//        int ticks = (int) (inch * STRAFE_FACTOR);
+
+        //Reset Encoders
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        lf.setTargetPosition(lf.getCurrentPosition() - 20000);
+        lb.setTargetPosition(lb.getCurrentPosition() + 20000);
+        rf.setTargetPosition(rf.getCurrentPosition() + 20000);
+        rb.setTargetPosition(rb.getCurrentPosition() - 20000);
+
+        //Set Drive Power
+        lf.setPower(0.7);
+        lb.setPower(0.7);
+        rf.setPower(0.7);
+        rb.setPower(0.7);
+
+        //Set to RUN_TO_POSITION mode
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+
+            if (dsRight.getDistance(DistanceUnit.INCH) <= 5 || gamepad1.a) {
+                lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                slideMotor.setTargetPosition(1700);
+                slideMotor.setPower(1);
+                slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION); sleep(1000);
+                slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+        }
     }
 
     public void carousel(String state){

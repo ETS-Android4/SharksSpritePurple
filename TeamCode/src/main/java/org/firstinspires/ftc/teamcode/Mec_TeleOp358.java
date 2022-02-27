@@ -61,6 +61,10 @@ public class Mec_TeleOp358 extends RobotMain358{
             rf.setPower(rfPower * driveFactor);                                         //
             rb.setPower(rbPower * driveFactor);                                         //
                                                                                         //
+            if (gamepad1.dpad_right) {
+                strafeRightTeleOp();
+            }
+
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
             /** CAROUSEL MOTORS **/                                                     //
@@ -103,7 +107,6 @@ public class Mec_TeleOp358 extends RobotMain358{
                 }
             }
 
-                                                                                        //
 //////////////////////////////////////////////////////////////////////////////////////////
             /** SLIDE MOTORS **/                                                        //
             // reset button                                                             //

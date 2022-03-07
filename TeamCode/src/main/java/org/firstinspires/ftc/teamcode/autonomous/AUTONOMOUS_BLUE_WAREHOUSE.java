@@ -1,18 +1,18 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.RobotMain358;
 
 import java.util.Locale;
 
 @Autonomous
-public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358{
+public class AUTONOMOUS_BLUE_WAREHOUSE extends RobotMain358 {
 
     private boolean done = false;
     public int position;
-    public boolean one = false;
 
     public void runOpMode() throws InterruptedException {
 
@@ -27,9 +27,8 @@ public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358{
 
             dsAuto();
 
-            strafe(-33,0.5);
-            strafe(8,0.5);
-            turn(-90,0.5);
+            turn(30,0.3);
+            forward(-21,0.5);
 
             slideAuto();
 
@@ -41,23 +40,27 @@ public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358{
             position = 0;
             slideAuto();
 
-            strafe(5,0.5);
-            forward(-5,0.5);
-            turn(90,0.5);
+            strafe(10,0.5);
+            sleep(500);
+            forward(55,1);
 
-            forward(-30,0.5);
-            forward(-5,0.5);
-
-            if (one) {
-                strafe(41,0.5);
-            } else {
-                strafe(39,0.5);
-            }
-
-
-            carousel("blue");
-
-            strafe(-19,1);
+//            strafe(5,0.5);
+//            forward(-5,0.5);
+//            turn(90,0.5);
+//
+//            forward(-30,0.5);
+//            forward(-5,0.5);
+//
+//            if (one) {
+//                strafe(41,0.5);
+//            } else {
+//                strafe(39,0.5);
+//            }
+//
+//
+//            carousel("blue");
+//
+//            strafe(-19,1);
             done = true;
         }
     }
@@ -73,14 +76,13 @@ public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358{
         if (position == 0) {
             slideMotor.setTargetPosition(50);
         } else if (position == 1) {
-            one = true;
-            strafe(-4,0.5);
+            strafe(-4.5,0.5);
             slideMotor.setTargetPosition(550);
         } else if (position == 2) {
-            strafe(-5,0.5);
+            strafe(-6,0.5);
             slideMotor.setTargetPosition(1150);
         } else if (position == 3) {
-            strafe(-5,0.5);
+            strafe(-7,0.5);
             slideMotor.setTargetPosition(1750);
         }
 
@@ -107,7 +109,8 @@ public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358{
         }
 
         // drive to the second detection position
-        forward(10,0.3);
+        turn(-30,0.3);
+        strafe(-5,0.3);
         // wait a second for accuracy
         sleep(500);
 

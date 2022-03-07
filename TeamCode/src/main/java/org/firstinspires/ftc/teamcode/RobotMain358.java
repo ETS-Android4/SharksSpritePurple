@@ -32,9 +32,8 @@ public abstract class RobotMain358 extends LinearOpMode {
 
     protected DistanceSensor dsFront;
     protected DistanceSensor dsFreight;
-//    protected DistanceSensor dsLeft;
+    protected DistanceSensor dsLeft;
     protected DistanceSensor dsRight;
-//    protected DistanceSensor dsFront;
 
     public double driveFactor = 0.9; //for TeleOp
     public final double slidePower = 0.1;
@@ -207,7 +206,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         sleep(200);
     }
 
-    public void strafeLeftTeleOp (){
+    public void strafeLeftTeleOp(){
         //Reset Encoders
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -233,8 +232,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-            if (dsRight.getDistance(DistanceUnit.INCH) <= 5 || gamepad1.a) {
-                // TODO: Change Right to Left
+            if (dsLeft.getDistance(DistanceUnit.INCH) <= 5 || gamepad1.a) {
                 lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -248,7 +246,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         }
     }
 
-    public void strafeRightTeleOp (){
+    public void strafeRightTeleOp(){
         //Reset Encoders
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

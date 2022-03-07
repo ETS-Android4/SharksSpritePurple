@@ -55,10 +55,9 @@ public class Mec_TeleOp358 extends RobotMain358{
                                                                                         //
             if (gamepad1.b) {                                                           //
                 strafeRightTeleOp();                                                    //
+            } else if (gamepad2.x) {
+                strafeLeftTeleOp();
             }
-//            else if (gamepad2.x) {
-//                strafeLeftTeleOp();
-//            }
                                                                                         //
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //

@@ -1,10 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.RobotMain358;
+
 @Autonomous
-public class AUTONOMOUS_PARK extends RobotMain358{
+public class AUTONOMOUS_PARK extends RobotMain358 {
 
     private boolean done = false;
 

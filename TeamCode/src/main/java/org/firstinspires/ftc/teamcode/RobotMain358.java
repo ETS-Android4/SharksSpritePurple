@@ -88,7 +88,7 @@ public abstract class RobotMain358 extends LinearOpMode {
 
         dsFront = hardwareMap.get(DistanceSensor.class, "dsFront");
         dsFreight = hardwareMap.get(DistanceSensor.class, "dsFreight");
-//        dsLeft = hardwareMap.get(DistanceSensor.class, "dsLeft");
+        dsLeft = hardwareMap.get(DistanceSensor.class, "dsLeft");
         dsRight = hardwareMap.get(DistanceSensor.class, "dsRight");
     }
 

@@ -11,6 +11,8 @@ import java.util.Locale;
 @TeleOp
 public class Mec_TeleOp358 extends RobotMain358{
 
+    private double adjust = 0.3;
+
     public void runOpMode() throws InterruptedException {
 
 //        initVuforia();
@@ -30,7 +32,6 @@ public class Mec_TeleOp358 extends RobotMain358{
 
 //////////////////////////////////////////////////////////////////////////////////////////
             /** Drive Train **/                                                         //
-                                                                                        //
             // define slow drive                                                        //
             if (gamepad1.right_bumper){                                                 //
                 if (System.currentTimeMillis() - lastTime > timeElapsed){               //
@@ -53,11 +54,36 @@ public class Mec_TeleOp358 extends RobotMain358{
             lb.setPower((drY + drR - drX) * -driveFactor);                              //
             rb.setPower((drY - drR + drX) * -driveFactor);                              //
                                                                                         //
+            // auto strafe function                                                     //
             if (gamepad1.b) {                                                           //
                 strafeRightTeleOp();                                                    //
-            } else if (gamepad2.x) {
+            } else if (gamepad1.x) {
                 strafeLeftTeleOp();
             }
+
+            // adjust
+            if (gamepad1.dpad_up) {
+                lf.setPower(-adjust);                                                    //
+                rf.setPower(-adjust);                                                    //
+                lb.setPower(-adjust);                                                    //
+                rb.setPower(-adjust);                                                    //
+            } else if (gamepad1.dpad_down) {
+                lf.setPower(adjust);                                                   //
+                rf.setPower(adjust);                                                   //
+                lb.setPower(adjust);                                                   //
+                rb.setPower(adjust);                                                   //
+            } else if (gamepad1.dpad_left) {
+                lf.setPower(adjust);                                                    //
+                rf.setPower(-adjust);                                                   //
+                lb.setPower(-adjust);                                                   //
+                rb.setPower(adjust);                                                    //
+            } else if (gamepad1.dpad_right) {
+                lf.setPower(-adjust);                                                   //
+                rf.setPower(adjust);                                                    //
+                lb.setPower(adjust);                                                    //
+                rb.setPower(-adjust);                                                   //
+            }
+
                                                                                         //
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //
@@ -136,7 +162,7 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
                                                                                         //
             // add rumble when a freight is in blackBox                                 //
-            if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {                       //
+            if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {                         //
                 gamepad1.rumble(0.8, 0.8, Gamepad.RUMBLE_DURATION_CONTINUOUS);
                 gamepad2.rumble(0.5, 0.5, 500);                 //
             } else {                                                                    //

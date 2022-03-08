@@ -63,10 +63,10 @@ public class Mec_TeleOp358 extends RobotMain358{
 
             // adjust
             if (gamepad1.dpad_up) {
-                lf.setPower(-adjust);                                                    //
-                rf.setPower(-adjust);                                                    //
-                lb.setPower(-adjust);                                                    //
-                rb.setPower(-adjust);                                                    //
+                lf.setPower(-adjust);                                                  //
+                rf.setPower(-adjust);                                                  //
+                lb.setPower(-adjust);                                                  //
+                rb.setPower(-adjust);                                                  //
             } else if (gamepad1.dpad_down) {
                 lf.setPower(adjust);                                                   //
                 rf.setPower(adjust);                                                   //

@@ -127,6 +127,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
         }
 
         // https://github.com/ftc358/359-2019/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobotMain359.java
+        // https://storage.googleapis.com/ftc-ml-firstinspires-prod/docs/ftc-ml_manual_2021.pdf#page23
         if (updatedRecognitions != null) {
 
 

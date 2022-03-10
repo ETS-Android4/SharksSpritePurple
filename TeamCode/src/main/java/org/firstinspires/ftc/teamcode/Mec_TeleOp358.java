@@ -99,20 +99,25 @@ public class Mec_TeleOp358 extends RobotMain358{
                                                                                         //
             /** INTAKE **/
             if (driveFactor == 0.7) {
-                if (gamepad1.left_trigger > 0.2) {
+                if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {
+                    intakeMotor.setPower(-0.6);
+                } else if (gamepad1.left_trigger > 0.2) {
                     intakeMotor.setPower(-0.6);
                 } else {
-                    intakeMotor.setPower(1);
+                    intakeMotor.setPower(0.8);
                 }
             } else if (driveFactor == 0.9) {
-                if (gamepad1.right_trigger > 0.2) {
-                    intakeMotor.setPower(1);
+                if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {
+                    intakeMotor.setPower(-0.6);
+                } else if (gamepad1.right_trigger > 0.2) {
+                    intakeMotor.setPower(0.8);
                 } else if (gamepad1.left_trigger > 0.2) {
                     intakeMotor.setPower(-0.6);
                 } else {
                     intakeMotor.setPower(0);
                 }
             }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
                                                                                         //

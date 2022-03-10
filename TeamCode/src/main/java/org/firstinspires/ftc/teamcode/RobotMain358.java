@@ -286,6 +286,80 @@ public abstract class RobotMain358 extends LinearOpMode {
         }
     }
 
+    public void strafeLeftAuto(double inch, double power, double distance){
+        int ticks = (int) (inch * STRAFE_FACTOR);
+
+        //Reset Encoders
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        lf.setTargetPosition(lf.getCurrentPosition() + ticks);
+        lb.setTargetPosition(lb.getCurrentPosition() - ticks);
+        rf.setTargetPosition(rf.getCurrentPosition() - ticks);
+        rb.setTargetPosition(rb.getCurrentPosition() + ticks);
+
+        //Set Drive Power
+        lf.setPower(power);
+        lb.setPower(power);
+        rf.setPower(power);
+        rb.setPower(power);
+
+        //Set to RUN_TO_POSITION mode
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+            if (dsRight.getDistance(DistanceUnit.INCH) <= distance) {
+                lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
+        }
+    }
+
+    public void strafeRightAuto(double inch, double power, double distance){
+        int ticks = (int) (inch * STRAFE_FACTOR);
+
+        //Reset Encoders
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        lf.setTargetPosition(lf.getCurrentPosition() - ticks);
+        lb.setTargetPosition(lb.getCurrentPosition() + ticks);
+        rf.setTargetPosition(rf.getCurrentPosition() + ticks);
+        rb.setTargetPosition(rb.getCurrentPosition() - ticks);
+
+        //Set Drive Power
+        lf.setPower(power);
+        lb.setPower(power);
+        rf.setPower(power);
+        rb.setPower(power);
+
+        //Set to RUN_TO_POSITION mode
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+            if (dsRight.getDistance(DistanceUnit.INCH) <= distance) {
+                lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
+        }
+    }
+
     public void carousel(String state){
 
         //Reset Encoders
@@ -307,22 +381,4 @@ public abstract class RobotMain358 extends LinearOpMode {
         while (crMotor.isBusy()){}
     }
 
-//    public void initVuforia() throws ExceptionInInitializerError {
-//
-//        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-//        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-//        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-//        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-//    }
-//
-//    public void initTfod() throws ExceptionInInitializerError {
-//        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-//                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-//        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-//        tfodParameters.minResultConfidence = 0.85f;
-//        tfodParameters.isModelTensorFlow2 = true;
-//        tfodParameters.inputSize = 320;
-//        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-//        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
-//    }
 }

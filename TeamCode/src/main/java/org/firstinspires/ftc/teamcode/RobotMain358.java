@@ -17,23 +17,12 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.lang.*;
-import java.util.Locale;
 
 public abstract class RobotMain358 extends LinearOpMode {
-    protected DcMotor lf;
-    protected DcMotor lb;
-    protected DcMotor rf;
-    protected DcMotor rb;
-    protected DcMotor slideMotor;
-    protected DcMotor crMotor;
-    protected DcMotor intakeMotor;
-    protected Servo blackBox;
-    protected Servo stuck;
-
-    protected DistanceSensor dsFront;
-    protected DistanceSensor dsFreight;
-    protected DistanceSensor dsLeft;
-    protected DistanceSensor dsRight;
+    protected DcMotor lf, lb, rf, rb;
+    protected DcMotor slideMotor, crMotor, intakeMotor;
+    protected Servo blackBox, stuck;
+    protected DistanceSensor dsFront, dsFreight, dsLeft, dsRight;
 
     public double driveFactor = 0.9; //for TeleOp
     public final double slidePower = 0.1;
@@ -54,7 +43,9 @@ public abstract class RobotMain358 extends LinearOpMode {
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
     public int stuckPosition = 0;
-    public boolean controlled = false;
+    state state358;
+
+    enum state {CAROUSEL, HUB, PARK}
 
     public void CHASSIS_INITIALIZE() throws InterruptedException{
         lf = hardwareMap.dcMotor.get("lf");

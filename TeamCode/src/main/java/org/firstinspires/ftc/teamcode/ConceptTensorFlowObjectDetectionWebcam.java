@@ -11,39 +11,26 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @TeleOp
 public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
-  /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
-   * the following 4 detectable objects
-   *  0: Ball,
-   *  1: Cube,
-   *  2: Duck,
-   *  3: Marker (duck location tape marker)
-   *
-   *  Two additional model assets are available which only contain a subset of the objects:
-   *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
-   *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
-   */
-  private static final String TFOD_MODEL_ASSET =
-          "Environment.getExternalStorageDirectory().getPath()/FIRST/tflitemodels/FIRST_MODEL.tflite";
+  private static final String TFOD_MODEL_ASSET = "Environment.getExternalStorageDirectory().getPath()/FIRST/tflitemodels/FIRST_MODEL.tflite";
   private static final String[] LABELS = {
       "A",
       "B",
       "C",
     };
 
-    private static final String VUFORIA_KEY =
-            "AbfVBDz/////AAABmYjPxLVfc06Kki/omu9b26Vk1TfvZO7giwjiWUu3cBC4GLD957469zF341ecaqFEoca1E35mbaSrBC/Hn5UZgPxpIjYNTOLRBJi72mUr9HO+mMAwuq9Qrs3MQ9E0OOTPolRHSiuorwRU/eTDNksoKVhNdtilPnWFktTaLS2dX6M8MiL3IXxUBxItTd+lbDuKLLVwPDO12DSWR1kOc11jKOnFBgfYUFrDLAq9X6yW74XQlOm26vE/mr/EJ3uO6y5QWysl9oQFGgoDioxqfRuCXQ2oy4BafcHVkwsMoJwAFeIP7zOVukmpIB7NzgZRQ8xy1+EfQTg75ojzmZplPf+wKWd4ypO4XJs3nGAk1kM+/thh";
+    private static final String VUFORIA_KEY = "AbfVBDz/////AAABmYjPxLVfc06Kki/omu9b26Vk1TfvZO7giwjiWUu3cBC4GLD957469zF341ecaqFEoca1E35mbaSrBC/Hn5UZgPxpIjYNTOLRBJi72mUr9HO+mMAwuq9Qrs3MQ9E0OOTPolRHSiuorwRU/eTDNksoKVhNdtilPnWFktTaLS2dX6M8MiL3IXxUBxItTd+lbDuKLLVwPDO12DSWR1kOc11jKOnFBgfYUFrDLAq9X6yW74XQlOm26vE/mr/EJ3uO6y5QWysl9oQFGgoDioxqfRuCXQ2oy4BafcHVkwsMoJwAFeIP7zOVukmpIB7NzgZRQ8xy1+EfQTg75ojzmZplPf+wKWd4ypO4XJs3nGAk1kM+/thh";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
 
     List<Recognition> updatedRecognitions;
-    private int position;
+    private int FINAL_POSITION;
     private boolean running = true;
 
     @Override
     public void runOpMode() throws InterruptedException{
 
 //        while (running) {
-//            position = checkPosition();
+//            FINAL_POSITION = checkPosition();
 //        }
 
         initVuforiaThingy();

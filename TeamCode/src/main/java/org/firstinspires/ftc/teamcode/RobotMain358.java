@@ -132,6 +132,47 @@ public abstract class RobotMain358 extends LinearOpMode {
         sleep(200);
     }
 
+    public void exponentialForward(double inch, double power) {
+        forward(inch/4, power/4);
+        forward(inch/4, power/2);
+        forward(inch/2, power);
+    }
+
+    public void forwardIntake (double inch, double power){
+        int ticks = (int) (inch * DRIVE_FACTOR);
+
+        //Reset Encoders
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        lf.setTargetPosition(lf.getCurrentPosition() - ticks);
+        lb.setTargetPosition(lb.getCurrentPosition() - ticks);
+        rf.setTargetPosition(rf.getCurrentPosition() - ticks);
+        rb.setTargetPosition(rb.getCurrentPosition() - ticks);
+
+        //Set Drive Power
+        lf.setPower(power);
+        lb.setPower(power);
+        rf.setPower(power);
+        rb.setPower(power);
+
+        //Set to RUN_TO_POSITION mode
+        intakeMotor.setPower(1);
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+            //Wait Until Target Position is Reached
+        }
+        intakeMotor.setPower(0);
+        sleep(200);
+    }
+
     public void turn (int degree, double power){
         int ticks = (int) (degree * TURN_FACTOR);
 
@@ -311,6 +352,7 @@ public abstract class RobotMain358 extends LinearOpMode {
                 lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                break;
             }
         }
     }
@@ -353,6 +395,92 @@ public abstract class RobotMain358 extends LinearOpMode {
                 break;
             }
         }
+    }
+
+    public void forwardAuto(double inch, double power, double distance){
+        int ticks = (int) (inch * DRIVE_FACTOR);
+        float averageFrontDistane;
+
+        //Reset Encoders
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        lf.setTargetPosition(lf.getCurrentPosition() - ticks);
+        lb.setTargetPosition(lb.getCurrentPosition() - ticks);
+        rf.setTargetPosition(rf.getCurrentPosition() - ticks);
+        rb.setTargetPosition(rb.getCurrentPosition() - ticks);
+
+        //Set Drive Power
+        lf.setPower(power);
+        lb.setPower(power);
+        rf.setPower(power);
+        rb.setPower(power);
+
+        //Set to RUN_TO_POSITION mode
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+            telemetry.addData("distance", dsRight.getDistance(DistanceUnit.INCH));
+            telemetry.update();
+            averageFrontDistane = (float) (dsFrontLeft.getDistance(DistanceUnit.INCH) + dsFrontRight.getDistance(DistanceUnit.INCH)) / 2;
+            if (averageFrontDistane <= distance) {
+                lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                break;
+            }
+        }
+    }
+
+    public double forwardUntilIntakeAuto(double inch, double power, double counter){
+        int ticks = (int) (inch * DRIVE_FACTOR);
+
+        //Reset Encoders
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Set Target Position
+        lf.setTargetPosition(lf.getCurrentPosition() - ticks);
+        lb.setTargetPosition(lb.getCurrentPosition() - ticks);
+        rf.setTargetPosition(rf.getCurrentPosition() - ticks);
+        rb.setTargetPosition(rb.getCurrentPosition() - ticks);
+
+        //Set Drive Power
+        lf.setPower(power);
+        lb.setPower(power);
+        rf.setPower(power);
+        rb.setPower(power);
+
+        intakeMotor.setPower(1);
+
+        //Set to RUN_TO_POSITION mode
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+            telemetry.addData("distance", dsRight.getDistance(DistanceUnit.INCH));
+            telemetry.update();
+
+            if (((DistanceSensor) colorFreight).getDistance(DistanceUnit.INCH) < 10) {
+                lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                return counter + inch;
+            }
+        }
+        return counter + inch;
     }
 
     public void carousel(String state){

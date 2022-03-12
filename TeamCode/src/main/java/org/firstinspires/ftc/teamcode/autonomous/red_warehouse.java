@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.RobotMain358;
 
 @Autonomous
-public class blue_warehouse extends RobotMain358 {
+public class red_warehouse extends RobotMain358 {
 
     private boolean done = false;
     int FINAL_POSITION;
@@ -27,7 +27,7 @@ public class blue_warehouse extends RobotMain358 {
         while (!opModeIsActive()){
             List<Integer> detected = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
-                detected.add(DETECT_POSITION_BLUE());
+                detected.add(DETECT_POSITION_RED());
                 sleep(10);
             }
 
@@ -43,22 +43,23 @@ public class blue_warehouse extends RobotMain358 {
         waitForStart();
         while (opModeIsActive() && !done) {
 
-            if (FINAL_POSITION == 1) {strafe(8, 0.5);}
+            if (FINAL_POSITION == 3) {strafe(-8, 0.5);}
+            else if (FINAL_POSITION == 1) {strafe(2, 0.5);}
 
             forward(39, 0.7);
             sleep(500);
             slideAuto();
 
-            blackBox.setPosition(0.086); sleep(1300);
+            blackBox.setPosition(0.8); sleep(1300);
             blackBox.setPosition(0.439); sleep(500);
 
             FINAL_POSITION = 0;
             slideAuto();
-            strafe(2, 0.7);
+            strafe(-2, 0.7);
 
             forward(-34, 1);
-            turn(-90, 0.5);
-            strafeLeftAuto(200, 0.5, 2);
+            turn(90, 0.5);
+            strafeRightAuto(200, 0.5, 2);
             sleep(500);
             forward(28, 0.7);
 
@@ -73,23 +74,23 @@ public class blue_warehouse extends RobotMain358 {
             sleep(500);
 
             forward(-3, 0.5);
-            strafeLeftAuto(200, 0.5, 2);
+            strafeRightAuto(200, 0.5, 2);
             forward(-(40+counter), 0.7);
             intakeMotor.setPower(0);
-            strafeLeftAuto(200, 0.5, 2);
+            strafeRightAuto(200, 0.5, 2);
             sleep(500);
-            strafe(-30, 0.5);
+            strafe(30, 0.5);
 
             FINAL_POSITION = 3;
             slideAuto();
 
-            blackBox.setPosition(0.086); sleep(1300);
+            blackBox.setPosition(0.8); sleep(1300);
             blackBox.setPosition(0.439); sleep(500);
 
             FINAL_POSITION = 0;
             slideAuto();
 
-            strafe(40, 1);
+            strafe(-40, 1);
             forward(65, 1);
 
             done = true;
@@ -110,13 +111,13 @@ public class blue_warehouse extends RobotMain358 {
         if (FINAL_POSITION == 0){
             slideMotor.setTargetPosition(50);
         }else if (FINAL_POSITION == 1) {
-            strafeRightAuto(10, 0.3, 9);
+            strafeLeftAuto(10, 0.3, 9);
             slideMotor.setTargetPosition(550);
         } else if (FINAL_POSITION == 2) {
-            strafeRightAuto(10, 0.3, 8);
+            strafeLeftAuto(10, 0.3, 8);
             slideMotor.setTargetPosition(1150);
         } else if (FINAL_POSITION == 3) {
-            strafeRightAuto(10, 0.3, 7);
+            strafeLeftAuto(10, 0.3, 7);
             slideMotor.setTargetPosition(1750);
         }
 

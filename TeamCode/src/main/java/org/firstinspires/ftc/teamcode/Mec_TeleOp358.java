@@ -91,9 +91,9 @@ public class Mec_TeleOp358 extends RobotMain358{
             /** CAROUSEL MOTORS **/                                                     //
             crMotor.setPower(0);                                                        //
             if (gamepad2.left_trigger > 0.1) {                                          //
-                crMotor.setPower(-0.45);                                                //
+                crMotor.setPower(gamepad2.left_trigger * -0.45);                        //
             } else if (gamepad2.right_trigger > 0.1) {                                  //
-                crMotor.setPower(0.45);                                                 //
+                crMotor.setPower(gamepad2.left_trigger * 0.45);                         //
             } else {                                                                    //
                 crMotor.setPower(0);                                                    //
             }                                                                           //
@@ -195,8 +195,8 @@ public class Mec_TeleOp358 extends RobotMain358{
             }
 
             //add telemetry
-            telemetry.addData("left", String.format(Locale.US, "%.01f in", (dsLeft.getDistance(DistanceUnit.INCH))));
-            telemetry.addData("right", String.format(Locale.US, "%.01f in", (dsRight.getDistance(DistanceUnit.INCH))));
+            telemetry.addData("left", String.format(Locale.US, "%.01f in", (dsFrontLeft.getDistance(DistanceUnit.INCH))));
+            telemetry.addData("right", String.format(Locale.US, "%.01f in", (dsFrontRight.getDistance(DistanceUnit.INCH))));
             telemetry.addData("freight distance", String.format(Locale.US, "%.01f in", ((DistanceSensor) colorFreight).getDistance(DistanceUnit.INCH)));
             telemetry.addData("drive factor", driveFactor);                      //
             telemetry.addData("slide", slideMotor.getCurrentPosition());         //

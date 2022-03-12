@@ -3,63 +3,68 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.RobotMain358;
-
-import java.util.Locale;
 
 @Autonomous
 public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358 {
 
     private boolean done = false;
-    public int position;
-    public boolean one = false;
+    private int FINAL_POSITION;
 
     public void runOpMode() throws InterruptedException {
 
         CHASSIS_INITIALIZE();
 
+        while (!opModeIsActive()){
+//            List<Integer> detected = new ArrayList<>();
+//            for (int i = 0; i < 20; i++) {
+//                detected.add(DETECT_POSITION_BLUE());
+//                sleep(10);
+//            }
+//            FINAL_POSITION = detected.stream().
+//                    reduce(BinaryOperator.maxBy(Comparator.comparingInt(o -> Collections.frequency(detected, o)))).orElse(null);
+//            detected.clear();
+//            telemetry.addData("Position Detected", FINAL_POSITION);
+//            telemetry.update();
+
+            FINAL_POSITION = DETECT_POSITION_BLUE();
+
+            waitForStart();
+        }
+
         waitForStart();
         while (opModeIsActive() && !done) {
-            position = 1;
+            switch (state358) {
+                case CAROUSEL:
+                    forward(10,0.5);
+                    turn(90,0.5);
+                    forward(-10,0.5);
 
-            forward(14,0.5);
-            turn(-90,0.5);
+                    telemetry.addData("Going to STOP", "yay!");
+                    telemetry.update();
+                    state358 = state.STOP;
+                    break;
 
-            dsAuto();
+                case HUB:
+                    switch (FINAL_POSITION) {
+                        case 1:
+                            break;
 
-            strafe(-33,0.5);
-            strafe(8,0.5);
-            turn(-90,0.5);
+                        case 2:
+                            break;
 
-            slideAuto();
+                        case 3:
+                            break;
+                    }
 
-            blackBox.setPosition(0.086); sleep(1300);
-            blackBox.setPosition(0.439); sleep(500);
-            blackBox.setPosition(0.086); sleep(1300);
-            blackBox.setPosition(0.439); sleep(500);
-
-            position = 0;
-            slideAuto();
-
-            strafe(5,0.5);
-            forward(-5,0.5);
-            turn(90,0.5);
-
-            forward(-30,0.5);
-            forward(-5,0.5);
-
-            if (one) {
-                strafe(41,0.5);
-            } else {
-                strafe(39,0.5);
+                case STOP:
+                    done = true;
             }
 
 
-            carousel("blue");
 
-            strafe(-19,1);
-            done = true;
+
+//            }
         }
     }
 
@@ -71,19 +76,19 @@ public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358 {
          * */
 
         // set target position based on sensed position
-        if (position == 0) {
+//        if (position == 0) {
             slideMotor.setTargetPosition(50);
-        } else if (position == 1) {
-            one = true;
+//        } else if (position == 1) {
+//            one = true;
             strafe(-4,0.5);
             slideMotor.setTargetPosition(550);
-        } else if (position == 2) {
-            strafe(-5,0.5);
+//        } else if (position == 2) {
+//            strafe(-5,0.5);
             slideMotor.setTargetPosition(1150);
-        } else if (position == 3) {
-            strafe(-5,0.5);
+//        } else if (position == 3) {
+//            strafe(-5,0.5);
             slideMotor.setTargetPosition(1750);
-        }
+//        }
 
         // set power and mode
         slideMotor.setPower(0.7);
@@ -91,40 +96,5 @@ public class AUTONOMOUS_BLUE_CAROUSEL extends RobotMain358 {
 
         while (slideMotor.isBusy()){}
 
-    }
-
-    public void dsAuto() {
-
-        // wait a second for accuracy
-        sleep(500);
-
-        telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
-        telemetry.update();
-
-        // if we successfully detect the marker
-        if (dsFront.getDistance(DistanceUnit.INCH) < 10) {
-            // tell the program to put the cube at the first level
-            position = 3;
-        }
-
-        // drive to the second detection position
-        forward(10,0.3);
-        // wait a second for accuracy
-        sleep(500);
-
-        telemetry.addData("range", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
-        telemetry.update();
-
-        // if we successfully detect the marker
-        if (dsFront.getDistance(DistanceUnit.INCH) < 10) {
-            // tell the program to put the cube at the second level
-            position = 2;
-        }
-
-        // if the marker is not at either position 1 or 2, then it must be at 3,
-        // which is preset to 3, so we don't have to change it again.
-
-        telemetry.addData("position", position);
-        telemetry.update();
     }
 }

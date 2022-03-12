@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -22,7 +24,8 @@ public abstract class RobotMain358 extends LinearOpMode {
     protected DcMotor lf, lb, rf, rb;
     protected DcMotor slideMotor, crMotor, intakeMotor;
     protected Servo blackBox, stuck;
-    protected DistanceSensor dsFront, dsFreight, dsLeft, dsRight;
+    protected DistanceSensor dsFrontLeft, dsFrontRight, dsLeft, dsRight;
+    protected ColorSensor colorFreight;
 
     public double driveFactor = 0.9; //for TeleOp
     public final double slidePower = 0.1;
@@ -43,9 +46,9 @@ public abstract class RobotMain358 extends LinearOpMode {
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
     public int stuckPosition = 0;
-    state state358;
+    public state state358;
 
-    enum state {CAROUSEL, HUB, PARK}
+    public enum state {CAROUSEL, HUB, PARK, STOP}
 
     public void CHASSIS_INITIALIZE() throws InterruptedException{
         lf = hardwareMap.dcMotor.get("lf");
@@ -77,10 +80,11 @@ public abstract class RobotMain358 extends LinearOpMode {
         stuck = hardwareMap.servo.get("stuck");
         stuck.setPosition(0.17);
 
-        dsFront = hardwareMap.get(DistanceSensor.class, "dsFront");
-        dsFreight = hardwareMap.get(DistanceSensor.class, "dsFreight");
+        dsFrontLeft = hardwareMap.get(DistanceSensor.class, "dsFrontLeft");
+        dsFrontRight = hardwareMap.get(DistanceSensor.class, "dsFrontRight");
         dsLeft = hardwareMap.get(DistanceSensor.class, "dsLeft");
         dsRight = hardwareMap.get(DistanceSensor.class, "dsRight");
+        colorFreight = hardwareMap.get(ColorSensor.class, "colorFreight");
     }
 
     // TeleOp Switch Drive
@@ -372,4 +376,23 @@ public abstract class RobotMain358 extends LinearOpMode {
         while (crMotor.isBusy()){}
     }
 
+    public int DETECT_POSITION_BLUE() {
+        if (dsFrontRight.getDistance(DistanceUnit.INCH) < 25) {
+            return 3;
+        } else if (dsFrontLeft.getDistance(DistanceUnit.INCH) < 25) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+    public int DETECT_POSITION_RED() {
+        if (dsFrontRight.getDistance(DistanceUnit.INCH) < 25) {
+            return 2;
+        } else if (dsFrontLeft.getDistance(DistanceUnit.INCH) < 25) {
+            return 1;
+        } else {
+            return 3;
+        }
+    }
 }

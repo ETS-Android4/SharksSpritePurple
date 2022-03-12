@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -99,7 +100,7 @@ public class Mec_TeleOp358 extends RobotMain358{
                                                                                         //
             /** INTAKE **/
             if (driveFactor == 0.7) {
-                if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {
+                if (((DistanceSensor) colorFreight).getDistance(DistanceUnit.INCH) < 10) {
                     intakeMotor.setPower(-0.6);
                 } else if (gamepad1.left_trigger > 0.2) {
                     intakeMotor.setPower(-0.6);
@@ -107,7 +108,7 @@ public class Mec_TeleOp358 extends RobotMain358{
                     intakeMotor.setPower(0.8);
                 }
             } else if (driveFactor == 0.9) {
-                if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {
+                if (((DistanceSensor) colorFreight).getDistance(DistanceUnit.INCH) < 10) {
                     intakeMotor.setPower(-0.6);
                 } else if (gamepad1.right_trigger > 0.2) {
                     intakeMotor.setPower(0.8);
@@ -167,7 +168,7 @@ public class Mec_TeleOp358 extends RobotMain358{
             }                                                                           //
                                                                                         //
             // add rumble when a freight is in blackBox                                 //
-            if (dsFreight.getDistance(DistanceUnit.INCH) < 4) {                         //
+            if (((DistanceSensor) colorFreight).getDistance(DistanceUnit.INCH) < 10) {                         //
                 gamepad1.rumble(0.8, 0.8, Gamepad.RUMBLE_DURATION_CONTINUOUS);
                 gamepad2.rumble(0.5, 0.5, 500);                 //
             } else {                                                                    //
@@ -194,9 +195,9 @@ public class Mec_TeleOp358 extends RobotMain358{
             }
 
             //add telemetry
-//            telemetry.addData("range-side", String.format(Locale.US, "%.01f in", dsFront.getDistance(DistanceUnit.INCH)));
-//            telemetry.addData("range-box", String.format(Locale.US, "%.01f in", dsFreight.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range-right", String.format(Locale.US, "%.01f in", dsRight.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("front left", String.format(Locale.US, "%.01f in", (dsFrontLeft.getDistance(DistanceUnit.INCH))));
+            telemetry.addData("front right", String.format(Locale.US, "%.01f in", (dsFrontRight.getDistance(DistanceUnit.INCH))));
+            telemetry.addData("freight distance", String.format(Locale.US, "%.01f in", ((DistanceSensor) colorFreight).getDistance(DistanceUnit.INCH)));
             telemetry.addData("drive factor", driveFactor);                      //
             telemetry.addData("slide", slideMotor.getCurrentPosition());         //
             telemetry.addData("box", blackBox.getPosition());                    //

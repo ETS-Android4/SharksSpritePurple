@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @TeleOp
 public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
-  private static final String TFOD_MODEL_ASSET = "Environment.getExternalStorageDirectory().getPath()/FIRST/tflitemodels/FIRST_MODEL.tflite";
+  private static final String TFOD_MODEL_ASSET = "/sdcard/FIRST/tflitemodels/FIRST_MODEL.tflite";
   private static final String[] LABELS = {
       "A",
       "B",
@@ -44,7 +44,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            running = false;
+//            running = false;
             while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
@@ -115,6 +115,9 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
 
         // https://github.com/ftc358/359-2019/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobotMain359.java
         // https://storage.googleapis.com/ftc-ml-firstinspires-prod/docs/ftc-ml_manual_2021.pdf#page23
+        // https://github.com/OpenFTC/EasyOpenCV
+        // https://github.com/google/ftc-object-detection/tree/master/training
+        // https://www.youtube.com/watch?v=1_tFzuxQ-FM
         if (updatedRecognitions != null) {
 
 

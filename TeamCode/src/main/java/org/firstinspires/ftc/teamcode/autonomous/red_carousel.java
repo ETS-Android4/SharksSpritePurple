@@ -20,7 +20,7 @@ public class red_carousel extends RobotMain358 {
 
         CHASSIS_INITIALIZE();
 
-        while (!opModeIsActive()){
+        while (!opModeIsActive()) {
             List<Integer> detected = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
                 detected.add(DETECT_POSITION_RED());
@@ -28,7 +28,7 @@ public class red_carousel extends RobotMain358 {
             }
 
             FINAL_POSITION = detected.stream().
-                    reduce(BinaryOperator.maxBy((o1,o2) -> Collections.frequency(detected, o1) -
+                    reduce(BinaryOperator.maxBy((o1, o2) -> Collections.frequency(detected, o1) -
                             Collections.frequency(detected, o2))).orElse(3);
             detected.clear();
 
@@ -41,21 +41,25 @@ public class red_carousel extends RobotMain358 {
         waitForStart();
         while (opModeIsActive() && !done) {
 
-            strafe(13,0.5);
+            strafe(13, 0.5);
             strafe(2.5, 0.3);
 
             carousel("red");
 
-            strafe(-30, 0.5);
+            strafe(-32, 0.5);
             forward(-10, 0.8);
             forward(38, 0.5);
 
             slideAuto();
 
-            blackBox.setPosition(0.086); sleep(1300);
-            blackBox.setPosition(0.439); sleep(500);
-            blackBox.setPosition(0.086); sleep(1300);
-            blackBox.setPosition(0.439); sleep(500);
+            blackBox.setPosition(0.086);
+            sleep(1300);
+            blackBox.setPosition(0.439);
+            sleep(500);
+            blackBox.setPosition(0.086);
+            sleep(1300);
+            blackBox.setPosition(0.439);
+            sleep(500);
 
             FINAL_POSITION = 0;
             slideAuto();
@@ -67,7 +71,6 @@ public class red_carousel extends RobotMain358 {
             strafe(40, 0.5);
             strafe(5, 0.3);
             forward(-23, 0.5);
-
 
             done = true;
         }

@@ -34,8 +34,6 @@ public class red_carousel extends RobotMain358 {
 
             telemetry.addData("Position Detected", FINAL_POSITION);
             telemetry.update();
-
-            FINAL_POSITION = DETECT_POSITION_RED();
         }
 
         waitForStart();

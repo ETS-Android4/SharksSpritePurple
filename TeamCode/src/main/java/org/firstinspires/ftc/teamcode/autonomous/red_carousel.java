@@ -10,7 +10,7 @@ import java.util.function.BinaryOperator;
 import org.firstinspires.ftc.teamcode.RobotMain358;
 
 @Autonomous
-public class blue_carousel extends RobotMain358 {
+public class red_carousel extends RobotMain358 {
 
     private boolean done = false;
     int FINAL_POSITION;
@@ -23,7 +23,7 @@ public class blue_carousel extends RobotMain358 {
         while (!opModeIsActive()){
             List<Integer> detected = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
-                detected.add(DETECT_POSITION_BLUE());
+                detected.add(DETECT_POSITION_RED());
                 sleep(10);
             }
 
@@ -35,24 +35,20 @@ public class blue_carousel extends RobotMain358 {
             telemetry.addData("Position Detected", FINAL_POSITION);
             telemetry.update();
 
-            FINAL_POSITION = DETECT_POSITION_BLUE();
+            FINAL_POSITION = DETECT_POSITION_RED();
         }
 
         waitForStart();
         while (opModeIsActive() && !done) {
 
-            forward(15, 0.5);
-            turn(-90, 0.5);
-            forward(-23, 0.5);
-            strafe(8,0.5);
+            strafe(13,0.5);
             strafe(2.5, 0.3);
 
-            carousel("blue");
+            carousel("red");
 
-            strafe(-36, 0.5);
-            forward(-10,0.8);
-            forward(31, 0.5);
-            turn(-90, 0.5);
+            strafe(-30, 0.5);
+            forward(-10, 0.8);
+            forward(38, 0.5);
 
             slideAuto();
 
@@ -64,9 +60,14 @@ public class blue_carousel extends RobotMain358 {
             FINAL_POSITION = 0;
             slideAuto();
 
+            strafe(10, 0.3);
+            strafe(-5, 0.3);
+
+            forward(13, 0.5);
             strafe(40, 0.5);
             strafe(5, 0.3);
-            forward(13, 0.5);
+            forward(-23, 0.5);
+
 
             done = true;
         }

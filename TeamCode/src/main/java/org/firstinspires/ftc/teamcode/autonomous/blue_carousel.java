@@ -20,22 +20,26 @@ public class blue_carousel extends RobotMain358 {
 
         CHASSIS_INITIALIZE();
 
+        // detect position during init
         while (!opModeIsActive()){
+            // store detected positions into a list
             List<Integer> detected = new ArrayList<>();
+            // store 20 values into a list
             for (int i = 0; i < 20; i++) {
                 detected.add(DETECT_POSITION_BLUE());
                 sleep(10);
             }
 
+            // find the most common value in the list
             FINAL_POSITION = detected.stream().
                     reduce(BinaryOperator.maxBy((o1,o2) -> Collections.frequency(detected, o1) -
                             Collections.frequency(detected, o2))).orElse(3);
+            // clear the list to keep the detection running
             detected.clear();
 
+            // add telemetry for the detected position
             telemetry.addData("Position Detected", FINAL_POSITION);
             telemetry.update();
-
-            FINAL_POSITION = DETECT_POSITION_BLUE();
         }
 
         waitForStart();

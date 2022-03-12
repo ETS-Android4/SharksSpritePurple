@@ -46,9 +46,6 @@ public abstract class RobotMain358 extends LinearOpMode {
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
     public int stuckPosition = 0;
-    public state state358;
-
-    public enum state {CAROUSEL, HUB, PARK, STOP}
 
     public void CHASSIS_INITIALIZE() throws InterruptedException{
         lf = hardwareMap.dcMotor.get("lf");
@@ -309,7 +306,7 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
-            if (dsRight.getDistance(DistanceUnit.INCH) <= distance) {
+            if (dsLeft.getDistance(DistanceUnit.INCH) <= distance) {
                 lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

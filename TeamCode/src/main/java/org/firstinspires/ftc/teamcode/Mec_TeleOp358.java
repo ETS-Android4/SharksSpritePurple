@@ -195,8 +195,8 @@ public class Mec_TeleOp358 extends RobotMain358{
             }
 
             //add telemetry
-            telemetry.addData("front left", String.format(Locale.US, "%.01f in", (dsFrontLeft.getDistance(DistanceUnit.INCH))));
-            telemetry.addData("front right", String.format(Locale.US, "%.01f in", (dsFrontRight.getDistance(DistanceUnit.INCH))));
+            telemetry.addData("left", String.format(Locale.US, "%.01f in", (dsLeft.getDistance(DistanceUnit.INCH))));
+            telemetry.addData("right", String.format(Locale.US, "%.01f in", (dsRight.getDistance(DistanceUnit.INCH))));
             telemetry.addData("freight distance", String.format(Locale.US, "%.01f in", ((DistanceSensor) colorFreight).getDistance(DistanceUnit.INCH)));
             telemetry.addData("drive factor", driveFactor);                      //
             telemetry.addData("slide", slideMotor.getCurrentPosition());         //

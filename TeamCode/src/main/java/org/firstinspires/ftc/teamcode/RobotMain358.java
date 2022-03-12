@@ -343,11 +343,14 @@ public abstract class RobotMain358 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()){
+            telemetry.addData("distance", dsRight.getDistance(DistanceUnit.INCH));
+            telemetry.update();
             if (dsRight.getDistance(DistanceUnit.INCH) <= distance) {
                 lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                break;
             }
         }
     }

@@ -43,9 +43,30 @@ public class blue_carousel extends RobotMain358 {
 
             forward(15, 0.5);
             turn(-90, 0.5);
-            forward(-20, 0.5);
-            strafe(-5,0.5);
+            forward(-23, 0.5);
+            strafe(8,0.5);
+            strafe(2.5, 0.5);
 
+            carousel("blue");
+
+            strafe(-36, 0.5);
+            forward(-10,0.8);
+            forward(31, 0.5);
+            turn(-90, 0.5);
+
+            slideAuto();
+
+            blackBox.setPosition(0.086); sleep(1300);
+            blackBox.setPosition(0.439); sleep(500);
+            blackBox.setPosition(0.086); sleep(1300);
+            blackBox.setPosition(0.439); sleep(500);
+
+            FINAL_POSITION = 0;
+            slideAuto();
+
+            strafe(40, 0.5);
+            strafe(5, 0.3);
+            forward(13, 0.5);
 
             done = true;
         }
@@ -58,23 +79,25 @@ public class blue_carousel extends RobotMain358 {
          * MAX / LEVEL 3 = 1800 - 50
          * */
 
+        telemetry.addData("slide", "yay!");
+        telemetry.update();
+
         // set target position based on sensed position
-//        if (position == 0) {
-        slideMotor.setTargetPosition(50);
-//        } else if (position == 1) {
-//            one = true;
-        strafe(-4,0.5);
-        slideMotor.setTargetPosition(550);
-//        } else if (position == 2) {
-//            strafe(-5,0.5);
-        slideMotor.setTargetPosition(1150);
-//        } else if (position == 3) {
-//            strafe(-5,0.5);
-        slideMotor.setTargetPosition(1750);
-//        }
+        if (FINAL_POSITION == 0){
+            slideMotor.setTargetPosition(50);
+        }else if (FINAL_POSITION == 1) {
+            strafeRightAuto(10, 0.3, 9);
+            slideMotor.setTargetPosition(550);
+        } else if (FINAL_POSITION == 2) {
+            strafeRightAuto(10, 0.3, 8);
+            slideMotor.setTargetPosition(1150);
+        } else if (FINAL_POSITION == 3) {
+            strafeRightAuto(10, 0.3, 7);
+            slideMotor.setTargetPosition(1750);
+        }
 
         // set power and mode
-        slideMotor.setPower(0.7);
+        slideMotor.setPower(1);
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (slideMotor.isBusy()){}

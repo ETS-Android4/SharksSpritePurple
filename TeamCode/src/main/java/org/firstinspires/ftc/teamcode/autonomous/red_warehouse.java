@@ -79,7 +79,7 @@ public class red_warehouse extends RobotMain358 {
             intakeMotor.setPower(0);
             strafeRightAuto(200, 0.5, 2);
             sleep(500);
-            strafe(30, 0.5);
+            strafe(26, 0.5);
 
             FINAL_POSITION = 3;
             slideAuto();
@@ -117,7 +117,7 @@ public class red_warehouse extends RobotMain358 {
             strafeLeftAuto(10, 0.3, 8);
             slideMotor.setTargetPosition(1150);
         } else if (FINAL_POSITION == 3) {
-            strafeLeftAuto(10, 0.3, 7);
+            strafe(5, 0.3);
             slideMotor.setTargetPosition(1750);
         }
 

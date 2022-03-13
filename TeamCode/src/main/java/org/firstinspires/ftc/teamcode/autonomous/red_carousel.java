@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import java.util.*;
 import java.util.function.BinaryOperator;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.RobotMain358;
 
 @Autonomous
@@ -21,6 +22,12 @@ public class red_carousel extends RobotMain358 {
         CHASSIS_INITIALIZE();
 
         while (!opModeIsActive()) {
+
+            telemetry.addData("ds front left: ", dsFrontLeft.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds front right: ", dsFrontRight.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds left: ", dsLeft.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds right: ", dsFrontRight.getDistance(DistanceUnit.INCH));
+
             List<Integer> detected = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
                 detected.add(DETECT_POSITION_RED());

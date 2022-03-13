@@ -18,6 +18,7 @@ public class blue_warehouse extends RobotMain358 {
     private boolean done = false;
     int FINAL_POSITION;
     double counter = 0;
+    int holder;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void runOpMode() throws InterruptedException {
@@ -25,6 +26,12 @@ public class blue_warehouse extends RobotMain358 {
         CHASSIS_INITIALIZE();
 
         while (!opModeIsActive()){
+
+            telemetry.addData("ds front left: ", dsFrontLeft.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds front right: ", dsFrontRight.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds left: ", dsLeft.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds right: ", dsFrontRight.getDistance(DistanceUnit.INCH));
+
             List<Integer> detected = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
                 detected.add(DETECT_POSITION_BLUE());
@@ -38,10 +45,16 @@ public class blue_warehouse extends RobotMain358 {
 
             telemetry.addData("Position Detected", FINAL_POSITION);
             telemetry.update();
+            holder = FINAL_POSITION;
         }
 
         waitForStart();
         while (opModeIsActive() && !done) {
+
+            telemetry.addData("ds front left: ", dsFrontLeft.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds front right: ", dsFrontRight.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds left: ", dsLeft.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ds right: ", dsFrontRight.getDistance(DistanceUnit.INCH));
 
             if (FINAL_POSITION == 1) {strafe(8, 0.5);}
 
@@ -60,7 +73,13 @@ public class blue_warehouse extends RobotMain358 {
             turn(-90, 0.5);
             strafeLeftAuto(200, 0.5, 2);
             sleep(500);
-            forward(28, 0.7);
+
+            if (holder == 1) {
+                forward(28, 0.7);
+            } else {
+                forward(33, 0.7);
+            }
+
 
             counter = forwardUntilIntakeAuto(2, 0.2, counter);
             counter = forwardUntilIntakeAuto(2, 0.2, counter);
@@ -74,7 +93,7 @@ public class blue_warehouse extends RobotMain358 {
 
             forward(-3, 0.5);
             strafeLeftAuto(200, 0.5, 2);
-            forward(-(40+counter), 0.7);
+            forward(-(37+counter), 0.7);
             intakeMotor.setPower(0);
             strafeLeftAuto(200, 0.5, 2);
             sleep(500);
@@ -110,7 +129,7 @@ public class blue_warehouse extends RobotMain358 {
         if (FINAL_POSITION == 0){
             slideMotor.setTargetPosition(50);
         }else if (FINAL_POSITION == 1) {
-            strafeRightAuto(10, 0.3, 9);
+            strafeRightAuto(10, 0.3, 8.5);
             slideMotor.setTargetPosition(550);
         } else if (FINAL_POSITION == 2) {
             strafeRightAuto(10, 0.3, 8);
